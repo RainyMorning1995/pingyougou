@@ -15,6 +15,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="itheima_MBG" target="1.8" />
       <module name="pingyougou_parent" target="1.8" />
       <module name="pinyougou_common" target="1.8" />
       <module name="pinyougou_dao" target="1.8" />
