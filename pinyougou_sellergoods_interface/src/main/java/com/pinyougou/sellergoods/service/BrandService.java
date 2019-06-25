@@ -9,5 +9,13 @@ public interface BrandService {
 
     List<TbBrand> findAll();
 
-    PageInfo<TbBrand> findPage(Integer pageNo, Integer pageSize);
+    PageInfo<TbBrand> findPage(Integer pageNo, Integer pageSize, TbBrand tbBrand);
+
+    void add(TbBrand tbBrand);
+
+    void update(TbBrand tbBrand);
+
+    TbBrand findOne(Long id);
+
+    void delete(Long[] ids);
 }
