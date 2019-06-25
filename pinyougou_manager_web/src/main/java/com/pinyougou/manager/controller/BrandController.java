@@ -11,7 +11,7 @@ import sun.rmi.runtime.Log;
 import java.util.List;
 
 @RestController
-@RequestMapping("/brand")
+@RequestMapping("/content")
 public class BrandController {
     @Reference
     private BrandService brandService;
@@ -30,7 +30,7 @@ public class BrandController {
 //        return page;
 //    }
 
-    @RequestMapping("/findPage")
+    @RequestMapping("/search")
     public PageInfo<TbBrand> findPage(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
                                       @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
                                       @RequestBody TbBrand tbBrand
