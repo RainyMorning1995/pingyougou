@@ -4,9 +4,12 @@
         pages:15,
         pageNo:1,
         list:[],
-        entity:{},
+        entity:{customAttributeItems:[]},
         ids:[],
-        searchEntity:{}
+        searchEntity:{},
+        brandOptions:[],//显示品牌的列表
+        specOptions:[]//显示规格的列表
+
     },
     methods: {
         searchList:function (curPage) {
@@ -78,6 +81,9 @@
         findOne:function (id) {
             axios.get('/typeTemplate/findOne/'+id+'.shtml').then(function (response) {
                 app.entity=response.data;
+                app.entity.brandIds = JSON.parse(app.entity.brandIds);
+                app.entity.specIds = JSON.parse(app.entity.specIds);
+                app.entity.customAttributeItems = JSON.parse(app.entity.customAttributeItems);
             }).catch(function (error) {
                 console.log("1231312131321");
             });
@@ -91,6 +97,42 @@
             }).catch(function (error) {
                 console.log("1231312131321");
             });
+        },
+        findBrandIds:function () {
+            axios.get('/content/findAll.shtml').then(function (response) {
+                let brandList = response.data;
+                for (var i = 0; i < brandList.length; i++)  {
+                    app.brandOptions.push({id:brandList[i].id},{text:brandList[i].name});
+                }
+            }).catch(function (error) {
+                console.log("1233434");
+            })
+        },
+        findSpecIds:function () {
+            axios.get('/specification/findAll.shtml').then(function (response) {
+                let specList = response.data;
+                for (var i = 0; i < specList.length; i++)  {
+                    app.specOptions.push({id:specList[i].id},{text:specList[i].specName});
+                }
+            }).catch(function (error) {
+                console.log("1233434");
+            })
+        },
+        addCustomAttributeItems:function () {
+            this.entity.customAttributeItems.push({});
+        },
+        removeTableRow:function (index) {
+            this.entity.customAttributeItems.splice(index,1);
+        },
+        jsonToString:function (list,type) {
+            var listJson = JSON.parse(list);
+            var str = "";
+            for (let i = 0; i < listJson.length; i++) {
+                var obj = listJson[i];
+                str += obj[type]+","
+            }
+            str = str.substring(0,str.length-1);
+            return str;
         }
 
 
@@ -100,6 +142,8 @@
     created: function () {
       
         this.searchList(1);
+        this.findBrandIds();
+        this.findSpecIds();
 
     }
 
