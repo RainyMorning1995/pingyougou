@@ -4,7 +4,7 @@
         pages:15,
         pageNo:1,
         list:[],
-        entity:{},
+        entity:{specification:{},optionList:[]},
         ids:[],
         searchEntity:{}
     },
@@ -69,7 +69,7 @@
             });
         },
         save:function () {
-            if(this.entity.id!=null){
+            if(this.entity.specification.id!=null){
                 this.update();
             }else{
                 this.add();
@@ -91,6 +91,12 @@
             }).catch(function (error) {
                 console.log("1231312131321");
             });
+        },
+        addTableRow:function () {
+            this.entity.optionList.push({});
+        },
+        removeTableRow:function (index) {
+            this.entity.optionList.splice(index,1);
         }
 
 
