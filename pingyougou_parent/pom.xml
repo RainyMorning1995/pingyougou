@@ -15,6 +15,7 @@
     <module>../pinyougou_sellergoods_service</module>
     <module>../pinyougou_manager_web</module>
       <module>../pinyougou_core_service</module>
+      <module>../itheima_spring_security</module>
   </modules>
   <packaging>pom</packaging>
 
