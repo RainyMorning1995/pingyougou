@@ -24,6 +24,7 @@ public class ManagerSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //开启同源iframe 可以访问策略
         http.headers().frameOptions().sameOrigin();
+        http.logout().logoutUrl("/logout").invalidateHttpSession(true);
     }
 
     @Override

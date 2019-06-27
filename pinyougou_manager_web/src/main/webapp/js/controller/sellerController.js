@@ -6,7 +6,7 @@
         list:[],
         entity:{},
         ids:[],
-        searchEntity:{}
+        searchEntity:{status:'0'}
     },
     methods: {
         searchList:function (curPage) {
