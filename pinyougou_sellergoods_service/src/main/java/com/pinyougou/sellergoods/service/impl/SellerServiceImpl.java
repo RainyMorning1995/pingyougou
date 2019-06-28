@@ -164,5 +164,13 @@ public class SellerServiceImpl extends CoreServiceImpl<TbSeller>  implements Sel
 
         return pageInfo;
     }
-	
+
+	@Override
+	public void updateStatus(String id, String status) {
+		TbSeller tbSeller = new TbSeller();
+		tbSeller.setStatus(status);
+		tbSeller.setSellerId(id);
+		sellerMapper.updateByPrimaryKeySelective(tbSeller);
+	}
+
 }

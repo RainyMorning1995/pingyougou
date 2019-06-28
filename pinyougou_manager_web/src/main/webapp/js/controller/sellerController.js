@@ -91,6 +91,18 @@
             }).catch(function (error) {
                 console.log("1231312131321");
             });
+        },
+        updateStatus:function (id, status) {
+            axios.get('/seller/updateStatus.shtml',{
+                params: {
+                    id:id,
+                    status:status
+                }
+            }).then(function (response) {
+                if (response.data.success) {
+                    app.searchList(1);
+                }
+            })
         }
 
 

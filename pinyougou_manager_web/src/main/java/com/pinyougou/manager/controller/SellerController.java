@@ -72,14 +72,30 @@ public class SellerController {
 	
 	/**
 	 * 获取实体
-	 * @param id
+	 * @param
 	 * @return
 	 */
-	@RequestMapping("/findOne/{id}")
-	public TbSeller findOne(@PathVariable(value = "id") Long id){
-		return sellerService.findOne(id);		
+//@RequestMapping("/findOne/{id}")
+//	public TbSeller findOne(@PathVariable(value = "id") Long id){
+//		return sellerService.findOne(id);
+//	}
+
+	@RequestMapping("/updateStatus")
+	public Result updateStatus(String id, String status){
+		try {
+			sellerService.updateStatus(id,status);
+			return new Result(true, "删除成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "删除失败");
+		}
 	}
-	
+
+	@RequestMapping("/findOne/{id}")
+	public TbSeller findOne(@PathVariable(value = "id") String id){
+		return sellerService.findOne(id);
+	}
+
 	/**
 	 * 批量删除
 	 * @param ids
