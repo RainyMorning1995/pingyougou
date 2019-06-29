@@ -6,7 +6,11 @@
         list:[],
         entity:{tbGoods:{},tbGoodsDesc:{},tbItems:[]},
         ids:[],
-        searchEntity:{}
+        searchEntity:{},
+        image_entity:{url:'',color:''},
+        itemCat1List:[],
+        itemCat2List:[],
+        itemCat3List:[]
     },
     methods: {
         searchList:function (curPage) {
@@ -93,6 +97,32 @@
             }).catch(function (error) {
                 console.log("1231312131321");
             });
+        },
+        upload:function () {
+            var formDate = new FormData();
+            formDate.append("file",file.files[0]);
+            axios({
+                url:'http://localhost:9083/upload/uploadFile.shtml',
+                data: formDate,
+                method:'post',
+                header:{
+                    'Content-Type':'multipart/form-data'
+                },
+                withCredentials:true
+            }).then(function (response) {
+                if (response.data.success) {
+                    console.log(this);
+                    app.image_entity.url = response.data.message;
+                    console.log(JSON.stringify(app.image_entity));
+                }else {
+                    alert(response.data.message)
+                }
+            })
+        },
+        findItemCatList:function () {
+            axios.get('/itemCat/findParentId/0.shtml').then(function (response) {
+                app.itemCat1List = response.data;
+            })
         }
 
 
@@ -100,9 +130,7 @@
     },
     //钩子函数 初始化了事件和
     created: function () {
-      
-        this.searchList(1);
-
+        this.findItemCatList();
     }
 
-})
+});

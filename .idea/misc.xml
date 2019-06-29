@@ -5,6 +5,7 @@
     <file type="web" url="file://$PROJECT_DIR$/pinyougou_manager_web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou_sellergoods_service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou_shop_web" />
+    <file type="web" url="file://$PROJECT_DIR$/pinyougou_upload_web" />
   </component>
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />

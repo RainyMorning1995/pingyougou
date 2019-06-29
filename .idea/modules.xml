@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/pinyougou_sellergoods_interface/pinyougou_sellergoods_interface.iml" filepath="$PROJECT_DIR$/pinyougou_sellergoods_interface/pinyougou_sellergoods_interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou_sellergoods_service/pinyougou_sellergoods_service.iml" filepath="$PROJECT_DIR$/pinyougou_sellergoods_service/pinyougou_sellergoods_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou_shop_web/pinyougou_shop_web.iml" filepath="$PROJECT_DIR$/pinyougou_shop_web/pinyougou_shop_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou_upload_web/pinyougou_upload_web.iml" filepath="$PROJECT_DIR$/pinyougou_upload_web/pinyougou_upload_web.iml" />
     </modules>
   </component>
 </project>
