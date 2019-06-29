@@ -1,7 +1,11 @@
 package com.pinyougou.sellergoods.service.impl;
 import java.util.Arrays;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired; 
+
+import com.pinyougou.mapper.TbGoodsDescMapper;
+import com.pinyougou.pojo.TbGoodsDesc;
+import entity.Goods;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -26,6 +30,9 @@ import com.pinyougou.sellergoods.service.GoodsService;
 @Service
 public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements GoodsService {
 
+	@Autowired
+	private TbGoodsDescMapper tbGoodsDescMapper;
+
 	
 	private TbGoodsMapper goodsMapper;
 
@@ -35,11 +42,19 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 		this.goodsMapper=goodsMapper;
 	}
 
-	
-	
 
-	
-	@Override
+    @Override
+    public void add(Goods goods) {
+		TbGoods tbGoods = goods.getTbGoods();
+		tbGoods.setIsDelete(false);
+		tbGoods.setAuditStatus("0");
+		goodsMapper.insert(tbGoods);
+		TbGoodsDesc tbGoodsDesc = goods.getTbGoodsDesc();
+		tbGoodsDesc.setGoodsId(tbGoods.getId());
+		tbGoodsDescMapper.insert(tbGoodsDesc);
+	}
+
+    @Override
     public PageInfo<TbGoods> findPage(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
         List<TbGoods> all = goodsMapper.selectAll();

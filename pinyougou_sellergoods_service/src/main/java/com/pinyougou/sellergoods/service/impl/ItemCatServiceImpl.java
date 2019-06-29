@@ -35,11 +35,17 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
 		this.itemCatMapper=itemCatMapper;
 	}
 
-	
-	
 
-	
-	@Override
+    @Override
+    public List<TbItemCat> findParentId(Long id) {
+        TbItemCat tbItemCat = new TbItemCat();
+        tbItemCat.setParentId(id);
+        List<TbItemCat> tbItemCats = itemCatMapper.select(tbItemCat);
+        return tbItemCats;
+
+    }
+
+    @Override
     public PageInfo<TbItemCat> findPage(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
         List<TbItemCat> all = itemCatMapper.selectAll();

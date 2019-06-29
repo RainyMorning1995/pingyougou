@@ -4,7 +4,7 @@
         pages:15,
         pageNo:1,
         list:[],
-        entity:{},
+        entity:{tbGoods:{},tbGoodsDesc:{},tbItems:[]},
         ids:[],
         searchEntity:{}
     },
@@ -52,7 +52,7 @@
             axios.post('/goods/add.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
-                    app.searchList(1);
+                    app.entity = {tbGoods:{},tbGoodsDesc:{},tbItems:[]};
                 }
             }).catch(function (error) {
                 console.log("1231312131321");

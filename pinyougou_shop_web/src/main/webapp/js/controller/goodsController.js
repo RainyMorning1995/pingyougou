@@ -4,7 +4,7 @@
         pages:15,
         pageNo:1,
         list:[],
-        entity:{},
+        entity:{tbGoods:{},tbGoodsDesc:{},tbItems:[]},
         ids:[],
         searchEntity:{}
     },
@@ -49,10 +49,12 @@
         },
         //该方法只要不在生命周期的
         add:function () {
+            this.entity.tbGoodsDesc.introduction = editor.html();
             axios.post('/goods/add.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
-                    app.searchList(1);
+                    app.entity = {tbGoods:{},tbGoodsDesc:{},tbItems:[]};
+                    editor.html("");
                 }
             }).catch(function (error) {
                 console.log("1231312131321");

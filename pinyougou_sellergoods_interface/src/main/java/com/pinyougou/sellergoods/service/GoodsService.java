@@ -4,6 +4,8 @@ import com.pinyougou.pojo.TbGoods;
 
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.core.service.CoreService;
+import entity.Goods;
+
 /**
  * 服务层接口
  * @author Administrator
@@ -12,7 +14,7 @@ import com.pinyougou.core.service.CoreService;
 public interface GoodsService extends CoreService<TbGoods> {
 	
 	
-	
+	public void add(Goods goods);
 	/**
 	 * 返回分页列表
 	 * @return
