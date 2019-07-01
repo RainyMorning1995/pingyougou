@@ -12,7 +12,7 @@
         itemCat2List:[],
         itemCat3List:[],
         brandIdList:[],
-        specList:[]
+        specList:[],
     },
     methods: {
         searchList:function (curPage) {
@@ -121,6 +121,11 @@
                 }
             })
         },
+        addImage_Entity:function () {
+
+            //向数组中添加一个图片的对象
+            this.entity.tbGoodsDesc.itemImages.push(this.image_entity);
+        },
         findItemCatList:function () {
             axios.get('/itemCat/findParentId/0.shtml').then(function (response) {
                 app.itemCat1List = response.data;
@@ -162,6 +167,28 @@
                 }
             }
             return null;
+        },
+        createList:function () {
+            this.entity.tbItems = [{'spec':{},'price':0,'num':0,'status':'0','isDefault':'0'}];
+            var specificationItems = this.entity.tbGoodsDesc.specificationItems;
+            for (var i = 0; i < specificationItems.length; i++) {
+                var obj = specificationItems[i];
+                this.entity.tbItems = this.addColum(this.entity.tbItems,obj.attributeName,obj.attributeValue);
+            }
+
+        },
+        addColum:function (list, columnName, columnValue) {
+            var newList = [];
+            for (var i = 0; i < list.length; i++) {
+                var oldRow = list[i];
+                for (let j = 0; j < columnValue.length; j++) {
+                    var newRow = JSON.parse(JSON.stringify(oldRow));
+                    var value = columnValue[j];
+                    newRow.spec[columnName] = value;
+                    newList.push(newRow);
+                }
+            }
+            return newList;
         }
 
     },

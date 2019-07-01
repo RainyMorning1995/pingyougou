@@ -29,7 +29,7 @@
 
 <body class="hold-transition skin-red sidebar-mini" >
 <div id="app">
-		{{entity.tbGoodsDesc}}
+		{{entity}}
             <!-- 正文区域 -->
             <section class="content">
 
@@ -202,13 +202,13 @@
                             	<div class="row data-type">
 	                            	<div class="col-md-2 title">是否启用规格</div>
 			                        <div class="col-md-10 data">
-			                        	<input type="checkbox" >
+			                        	<input type="checkbox" v-model="entity.tbGoods.isEnableSpec" :flase-value="0" :true-value="1">
 			                            <button type="button" class="btn btn-default" title="自定义规格" data-target="#mySpecModal"  data-toggle="modal"  ><i class="fa fa-file-o"></i> 自定义规格</button>               
 			                        </div>
                             	</div>
                             	<p>
                             	
-                            	<div>
+                            	<div v-if="entity.tbGoods.isEnableSpec == '1'">
                             	
 	                                <div class="row data-type">
 	                                
@@ -217,7 +217,7 @@
 					                        <div class="col-md-10 data">
 					                               
 					                            <span v-for="option in spec.options">
-					                            	<input  type="checkbox" @click="updateChecked($event,spec.text,option.optionName)">{{option.optionName}}
+					                            	<input  type="checkbox" @click="updateChecked($event,spec.text,option.optionName);createList()">{{option.optionName}}
 					                            </span>  	
 												<!--<span>-->
 					                            	<!--<input  type="checkbox" >4.5-->
@@ -252,8 +252,8 @@
 	                                	 <table class="table table-bordered table-striped table-hover dataTable">
 						                    <thead>
 						                        <tr>
-												    <th class="sorting">屏幕尺寸</th>
-													<th class="sorting">网络制式</th>
+												    <th class="sorting" v-for="specification in entity.tbGoodsDesc.specificationItems">{{specification.attributeName}}</th>
+													<!--<th class="sorting">网络制式</th>-->
 												    <th class="sorting">价格</th>
 												    <th class="sorting">库存</th>
 												    <th class="sorting">是否启用</th>
@@ -261,86 +261,86 @@
 											    </tr>
 								            </thead>
 						                    <tbody>
-						                      <tr>
-										            <td>
-										            	4.0
+						                      <tr v-for="tbItem in entity.tbItems ">
+										            <td v-for="specification in entity.tbGoodsDesc.specificationItems">
+										            	{{tbItem.spec[specification.attributeName]}}
 										            </td>
-													<td>
-										            	3G
-										            </td>
+													<!--<td>-->
+										            	<!--3G-->
+										            <!--</td>-->
 										            <td>
-										           		<input class="form-control"  placeholder="价格">
-										            </td>
-										            <td>
-										            	<input class="form-control" placeholder="库存数量">
+										           		<input class="form-control"  placeholder="价格" v-model="tbItem.price">
 										            </td>
 										            <td>
-										             	<input type="checkbox" >
+										            	<input class="form-control" placeholder="库存数量" v-model="tbItem.num">
 										            </td>
 										            <td>
-										                <input type="checkbox" >
+										             	<input type="checkbox"  :true-value="1" :flase-value="0" v-model="tbItem.status">
+										            </td>
+										            <td>
+										                <input type="checkbox" :true-value="1" :flase-value="0" v-model="tbItem.isDefault">
 										            </td>
 						                      </tr>
-											  <tr>
-										            <td>
-										            	4.0
-										            </td>
-													<td>
-										            	4G
-										            </td>
-										            <td>
-										           		<input class="form-control"  placeholder="价格">
-										            </td>
-										            <td>
-										            	<input class="form-control" placeholder="库存数量">
-										            </td>
-										            <td>
-										             	<input type="checkbox" >
-										            </td>
-										            <td>
-										                <input type="checkbox" >
-										            </td>
-						                      </tr>
-											  <tr>
-													<td>
-										            	5.0
-										            </td>
-													<td>
-										            	3G
-										            </td>
-										            <td>
-										           		<input class="form-control"  placeholder="价格">
-										            </td>
-										            <td>
-										            	<input class="form-control" placeholder="库存数量">
-										            </td>
-										            <td>
-										             	<input type="checkbox" >
-										            </td>
-										            <td>
-										                <input type="checkbox" >
-										            </td>
-						                      </tr>
-											  <tr>
-													<td>
-										            	5.0
-										            </td>
-													<td>
-										            	4G
-										            </td>
-										            <td>
-										           		<input class="form-control"  placeholder="价格">
-										            </td>
-										            <td>
-										            	<input class="form-control" placeholder="库存数量">
-										            </td>
-										            <td>
-										             	<input type="checkbox" >
-										            </td>
-										            <td>
-										                <input type="checkbox" >
-										            </td>
-						                      </tr>
+											  <!--<tr>-->
+										            <!--<td>-->
+										            	<!--4.0-->
+										            <!--</td>-->
+													<!--<td>-->
+										            	<!--4G-->
+										            <!--</td>-->
+										            <!--<td>-->
+										           		<!--<input class="form-control"  placeholder="价格">-->
+										            <!--</td>-->
+										            <!--<td>-->
+										            	<!--<input class="form-control" placeholder="库存数量">-->
+										            <!--</td>-->
+										            <!--<td>-->
+										             	<!--<input type="checkbox" >-->
+										            <!--</td>-->
+										            <!--<td>-->
+										                <!--<input type="checkbox" >-->
+										            <!--</td>-->
+						                      <!--</tr>-->
+											  <!--<tr>-->
+													<!--<td>-->
+										            	<!--5.0-->
+										            <!--</td>-->
+													<!--<td>-->
+										            	<!--3G-->
+										            <!--</td>-->
+										            <!--<td>-->
+										           		<!--<input class="form-control"  placeholder="价格">-->
+										            <!--</td>-->
+										            <!--<td>-->
+										            	<!--<input class="form-control" placeholder="库存数量">-->
+										            <!--</td>-->
+										            <!--<td>-->
+										             	<!--<input type="checkbox" >-->
+										            <!--</td>-->
+										            <!--<td>-->
+										                <!--<input type="checkbox" >-->
+										            <!--</td>-->
+						                      <!--</tr>-->
+											  <!--<tr>-->
+													<!--<td>-->
+										            	<!--5.0-->
+										            <!--</td>-->
+													<!--<td>-->
+										            	<!--4G-->
+										            <!--</td>-->
+										            <!--<td>-->
+										           		<!--<input class="form-control"  placeholder="价格">-->
+										            <!--</td>-->
+										            <!--<td>-->
+										            	<!--<input class="form-control" placeholder="库存数量">-->
+										            <!--</td>-->
+										            <!--<td>-->
+										             	<!--<input type="checkbox" >-->
+										            <!--</td>-->
+										            <!--<td>-->
+										                <!--<input type="checkbox" >-->
+										            <!--</td>-->
+						                      <!--</tr>-->
 
 						                    </tbody>
 									 	</table>
@@ -405,7 +405,7 @@
 			
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" ng-click="add_image_entity()" data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-success" @click="addImage_Entity()" data-dismiss="modal" aria-hidden="true">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>
