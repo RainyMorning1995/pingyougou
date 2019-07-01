@@ -4,14 +4,15 @@
         pages:15,
         pageNo:1,
         list:[],
-        entity:{tbGoods:{},tbGoodsDesc:{itemImages:[],customAttributeItems:[]},tbItems:[]},
+        entity:{tbGoods:{},tbGoodsDesc:{itemImages:[],customAttributeItems:[],specificationItems:[]},tbItems:[]},
         ids:[],
         searchEntity:{},
         image_entity:{url:'',color:''},
         itemCat1List:[],
         itemCat2List:[],
         itemCat3List:[],
-        brandIdList:[]
+        brandIdList:[],
+        specList:[]
     },
     methods: {
         searchList:function (curPage) {
@@ -124,6 +125,43 @@
             axios.get('/itemCat/findParentId/0.shtml').then(function (response) {
                 app.itemCat1List = response.data;
             })
+        },
+        //当点击复选框的时候调用 并影响变量：entity.goodsDesc.specficationItems的值
+        updateChecked:function ($event,specName,specValue) {
+            let searchObject = this.searchObjectByKey(this.entity.tbGoodsDesc.specificationItems,specName,'attributeName');
+            if (searchObject != null) {
+                //searchObject====={"attributeName":"网络制式","attributeValue":["移动3G","移动4G"]}
+                if ($event.target.checked) {
+                    searchObject.attributeValue.push(specValue);
+                } else {
+                    searchObject.attributeValue.splice( searchObject.attributeValue.indexOf(specValue),1);
+                    if(searchObject.attributeValue.length==0){
+                        this.entity.tbGoodsDesc.specificationItems.splice(this.entity.goodsDesc.specificationItems.indexOf(searchObject),1)
+                    }
+                }
+            } else {
+                //[{"attributeName":"网络制式","attributeValue":["移动3G","移动4G"]},{"attributeName":"屏幕尺寸","attributeValue":["6寸","5.5寸"]}]
+                this.entity.tbGoodsDesc.specificationItems.push({
+                    "attributeName": specName,
+                    "attributeValue": [specValue]
+                });
+            }
+        },
+        /**
+         *
+         * @param list 从该数组中查询[{"attributeName":"网络制式","attributeValue":["移动3G","移动4G"]}]
+         * @param specName  指定查询的属性的具体值 比如 网络
+         * @param key  指定从哪一个属性名查找  比如：attributeName
+         * @returns {*}
+         */
+        searchObjectByKey:function (list,specName,key) {
+            for(var i=0;i<list.length;i++){
+                let specificationItem = list[i];//{"attributeName":"网络制式","attributeValue":["移动3G","移动4G"]}
+                if(specificationItem[key]==specName){
+                    return specificationItem;
+                }
+            }
+            return null;
         }
 
     },
@@ -156,11 +194,16 @@
         },
         'entity.tbGoods.typeTemplateId':function (newval,oldvalue) {
           if (newval != undefined) {
-              axios.get('/typeTemplate/findOne/'+newval+".shtml").then(function (response) {
+              axios.get('/typeTemplate/findOne/'+newval+'.shtml').then(function (response) {
                   var typeTemplate = response.data;
                   app.brandIdList = JSON.parse(typeTemplate.brandIds);
 
                   app.entity.tbGoodsDesc.customAttributeItems = JSON.parse(typeTemplate.customAttributeItems)
+
+              });
+
+              axios.get('/typeTemplate/findSpecList/'+newval+'.shtml').then(function (response) {
+                  app.specList = response.data;
               })
           }
         }

@@ -33,6 +33,7 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
 	
 	private TbTypeTemplateMapper typeTemplateMapper;
 
+    @Autowired
 	private TbSpecificationOptionMapper optionMapper;
 
 	@Autowired
@@ -44,17 +45,18 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
 
     @Override
     public List<Map> findSpecList(Long id) {
-            TbTypeTemplate tbTypeTemplate = typeTemplateMapper.selectByPrimaryKey(id);
-            String specIds = tbTypeTemplate.getSpecIds();
-            List<Map> maps = JSON.parseArray(specIds, Map.class);
-            for (Map map : maps) {
-                Integer id1 = (Integer) map.get("id");
-                TbSpecificationOption option = new TbSpecificationOption();
-                option.setSpecId(Long.valueOf(id1));
-                List<TbSpecificationOption> optionList = optionMapper.select(option);
-                map.put("optionList",optionList);
-            }
-            return maps;
+        TbTypeTemplate tbTypeTemplate = typeTemplateMapper.selectByPrimaryKey(id);
+        String specIds = tbTypeTemplate.getSpecIds();
+        List<Map> maps = JSON.parseArray(specIds, Map.class);
+
+        for (Map map : maps) {
+            Integer id1 = (Integer) map.get("id");//规格的ID
+            TbSpecificationOption record = new TbSpecificationOption();
+            record.setSpecId(Long.valueOf(id1));
+            List<TbSpecificationOption> optionsList = optionMapper.select(record);
+            map.put("options", optionsList);
+        }
+        return maps;
     }
 
     @Override
