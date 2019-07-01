@@ -1,5 +1,7 @@
 package com.pinyougou.sellergoods.service;
 import java.util.List;
+import java.util.Map;
+
 import com.pinyougou.pojo.TbTypeTemplate;
 
 import com.github.pagehelper.PageInfo;
@@ -12,7 +14,7 @@ import com.pinyougou.core.service.CoreService;
 public interface TypeTemplateService extends CoreService<TbTypeTemplate> {
 	
 	
-	
+	public List<Map> findSpecList(Long id);
 	/**
 	 * 返回分页列表
 	 * @return

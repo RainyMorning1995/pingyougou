@@ -4,13 +4,14 @@
         pages:15,
         pageNo:1,
         list:[],
-        entity:{tbGoods:{},tbGoodsDesc:{},tbItems:[]},
+        entity:{tbGoods:{},tbGoodsDesc:{itemImages:[],customAttributeItems:[]},tbItems:[]},
         ids:[],
         searchEntity:{},
         image_entity:{url:'',color:''},
         itemCat1List:[],
         itemCat2List:[],
-        itemCat3List:[]
+        itemCat3List:[],
+        brandIdList:[]
     },
     methods: {
         searchList:function (curPage) {
@@ -125,9 +126,49 @@
             })
         }
 
+    },
+    watch:{
+      'entity.tbGoods.category1Id':function (newval,oldvalue) {
+          //alert("test002");
+            if (newval != undefined) {
+                axios.get('/itemCat/findParentId/'+newval+'.shtml').then(function (response) {
 
+                    app.itemCat2List = response.data;
+                    //alert(app.itemCat2List)
+                })
+            }
+      }
+      ,
+        'entity.tbGoods.category2Id':function (newval,oldvalue) {
+            if (newval != undefined){
+                axios.get('/itemCat/findParentId/'+newval+'.shtml').then(function (response) {
+                    app.itemCat3List = response.data;
+                })
+            }
+        },
+        'entity.tbGoods.category3Id':function (newval,oldvalue) {
+            if (newval != undefined) {
+                axios.get('/itemCat/findOne/'+newval+'.shtml').then(function (response) {
+                    //app.entity.tbGoods.typeTemplateId = response.data.typeId;
+                    app.$set(app.entity.tbGoods,'typeTemplateId',response.data.typeId)
+                })
+            }
+        },
+        'entity.tbGoods.typeTemplateId':function (newval,oldvalue) {
+          if (newval != undefined) {
+              axios.get('/typeTemplate/findOne/'+newval+".shtml").then(function (response) {
+                  var typeTemplate = response.data;
+                  app.brandIdList = JSON.parse(typeTemplate.brandIds);
+
+                  app.entity.tbGoodsDesc.customAttributeItems = JSON.parse(typeTemplate.customAttributeItems)
+              })
+          }
+        }
 
     },
+
+
+
     //钩子函数 初始化了事件和
     created: function () {
         this.findItemCatList();
