@@ -30,5 +30,8 @@ public interface GoodsService extends CoreService<TbGoods> {
 	 * @return
 	 */
 	PageInfo<TbGoods> findPage(Integer pageNo, Integer pageSize, TbGoods Goods);
+
+
+	public Goods findOne(Long id);
 	
 }

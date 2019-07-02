@@ -63,7 +63,7 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 		TbGoodsDesc tbGoodsDesc = goods.getTbGoodsDesc();
 		tbGoodsDesc.setGoodsId(tbGoods.getId());
 		tbGoodsDescMapper.insert(tbGoodsDesc);
-
+		saveItems(goods,tbGoods,tbGoodsDesc);
 
 
 
@@ -107,7 +107,34 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 
 
 		}else {
+			TbItem tbItem = new TbItem();
+			tbItem.setTitle(tbGoods.getGoodsName());
+			tbItem.setPrice(tbGoods.getPrice());
+			tbItem.setNum(999);
+			tbItem.setStatus("1");
+			tbItem.setIsDefault("1");
+			tbItem.setSpec("{}");
+			String itemImages = tbGoodsDesc.getItemImages();
+			List<Map> maps = JSON.parseArray(itemImages, Map.class);
+			String url = maps.get(0).get("url").toString();
+			tbItem.setImage(url);
 
+			Long category3Id = tbGoods.getCategory3Id();
+			TbItemCat tbItemCat = catMapper.selectByPrimaryKey(category3Id);
+			tbItem.setCategoryid(tbItemCat.getId());
+			tbItem.setCategory(tbItemCat.getName());
+
+			tbItem.setCreateTime(new Date());
+			tbItem.setUpdateTime(new Date());
+
+			tbItem.setGoodsId(tbGoods.getId());
+
+			TbSeller tbSeller = sellerMapper.selectByPrimaryKey(tbGoods.getSellerId());
+			tbItem.setSellerId(tbSeller.getSellerId());
+			tbItem.setSeller(tbSeller.getNickName());
+			TbBrand tbBrand = brandMapper.selectByPrimaryKey(tbGoods.getBrandId());
+			tbItem.setBrand(tbBrand.getName());
+			itemMapper.insert(tbItem);
 		}
 	}
 
@@ -135,7 +162,8 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 
         if(goods!=null){			
 						if(StringUtils.isNotBlank(goods.getSellerId())){
-				criteria.andLike("sellerId","%"+goods.getSellerId()+"%");
+//				criteria.andLike("sellerId","%"+goods.getSellerId()+"%");
+				criteria.andEqualTo("sellerId",goods.getSellerId());
 				//criteria.andSellerIdLike("%"+goods.getSellerId()+"%");
 			}
 			if(StringUtils.isNotBlank(goods.getGoodsName())){
@@ -172,5 +200,20 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 
         return pageInfo;
     }
-	
+
+	@Override
+	public Goods findOne(Long id) {
+		Goods goods = new Goods();
+		TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+		goods.setTbGoods(tbGoods);
+		TbGoodsDesc tbGoodsDesc = tbGoodsDescMapper.selectByPrimaryKey(id);
+		goods.setTbGoodsDesc(tbGoodsDesc);
+
+		TbItem tbItem = new TbItem();
+		tbItem.setGoodsId(id);
+		List<TbItem> select = itemMapper.select(tbItem);
+		goods.setTbItems(select);
+		return goods;
+	}
+
 }

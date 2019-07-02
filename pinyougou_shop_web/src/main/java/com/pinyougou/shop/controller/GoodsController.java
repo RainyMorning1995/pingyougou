@@ -80,7 +80,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/findOne/{id}")
-	public TbGoods findOne(@PathVariable(value = "id") Long id){
+	public Goods findOne(@PathVariable(value = "id") Long id){
 		return goodsService.findOne(id);		
 	}
 	
@@ -106,6 +106,7 @@ public class GoodsController {
     public PageInfo<TbGoods> findPage(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
                                       @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
                                       @RequestBody TbGoods goods) {
+		goods.setSellerId(SecurityContextHolder.getContext().getAuthentication().getName());
         return goodsService.findPage(pageNo, pageSize, goods);
     }
 	

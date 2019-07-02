@@ -12,7 +12,7 @@
         itemCat2List:[],
         itemCat3List:[],
         brandIdList:[],
-        specList:[],
+        specList:[]
     },
     methods: {
         searchList:function (curPage) {
@@ -86,6 +86,16 @@
         findOne:function (id) {
             axios.get('/goods/findOne/'+id+'.shtml').then(function (response) {
                 app.entity=response.data;
+
+                editor.html(app.entity.tbGoodsDesc.introduction);
+                app.entity.tbGoodsDesc.itemImages = JSON.parse(app.entity.tbGoodsDesc.itemImages);
+                app.entity.tbGoodsDesc.customAttributeItems = JSON.parse(app.entity.tbGoodsDesc.customAttributeItems);
+                app.entity.tbGoodsDesc.specificationItems = JSON.parse(app.entity.tbGoodsDesc.specificationItems);
+                for (var i = 0; i < app.entity.tbItems.length; i++) {
+                    var tbItem = app.entity.tbItems[i];
+                    tbItem.spec = JSON.parse(tbItem.spec);
+                }
+
             }).catch(function (error) {
                 console.log("1231312131321");
             });
@@ -152,6 +162,15 @@
                 });
             }
         },
+        isCheckde:function (specName,speValue) {
+            var obj = this.searchObjectByKey(this.entity.tbGoodsDesc.specificationItems,specName,'attributeName',);
+            if (obj != null) {
+                if (obj.attributeValue.indexOf(speValue) != -1 ) {
+                    return true;
+                }
+            }
+            return false;
+        },
         /**
          *
          * @param list 从该数组中查询[{"attributeName":"网络制式","attributeValue":["移动3G","移动4G"]}]
@@ -194,6 +213,14 @@
     },
     watch:{
       'entity.tbGoods.category1Id':function (newval,oldvalue) {
+
+          // this.itemCat3List = [];
+          //
+          // if (this.entity.tbGoods.id == null) {
+          //     delete this.entity.tbGoods.category2Id;
+          //     delete this.entity.tbGoods.category1Id;
+          //     delete this.entity.tbGoods.typeTemplateId;
+          // }
           //alert("test002");
             if (newval != undefined) {
                 axios.get('/itemCat/findParentId/'+newval+'.shtml').then(function (response) {
@@ -225,7 +252,9 @@
                   var typeTemplate = response.data;
                   app.brandIdList = JSON.parse(typeTemplate.brandIds);
 
-                  app.entity.tbGoodsDesc.customAttributeItems = JSON.parse(typeTemplate.customAttributeItems)
+                  if (app.entity.tbGoods.id == null) {
+                      app.entity.tbGoodsDesc.customAttributeItems = JSON.parse(typeTemplate.customAttributeItems)
+                  }
 
               });
 
@@ -242,6 +271,10 @@
     //钩子函数 初始化了事件和
     created: function () {
         this.findItemCatList();
+
+        var request = this.getUrlParam();
+        console.log(request);
+        this.findOne(request.id);
     }
 
 });
