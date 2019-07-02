@@ -6,9 +6,9 @@
         list:[],
         entity:{},
         ids:[],
-        searchEntity:{},
+        searchEntity:{auditStatus:'0'},
         TbItemCatList:[],
-        statusList:['未申请','申请中','审核通过','已驳回']
+        statusList:['未审核','已审核','审核未通过','已关闭'],
     },
     methods: {
         searchList:function (curPage) {
@@ -69,6 +69,16 @@
         },
         update:function () {
             axios.post('/goods/update.shtml',this.entity).then(function (response) {
+                console.log(response);
+                if(response.data.success){
+                    app.searchList(1);
+                }
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
+        },
+        updateStatus:function (status) {
+            axios.post('/goods/updateStatus/'+status+'.shtml',this.ids).then(function (response) {
                 console.log(response);
                 if(response.data.success){
                     app.searchList(1);

@@ -54,7 +54,17 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 	}
 
 
-    @Override
+	@Override
+	public void delete(Object[] ids) {
+		Example example = new Example(TbGoods.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andIn("id",Arrays.asList(ids));
+		TbGoods tbGoods = new TbGoods();
+		tbGoods.setIsDelete(true);
+		goodsMapper.updateByExampleSelective(tbGoods,example);
+	}
+
+	@Override
     public void add(Goods goods) {
 		TbGoods tbGoods = goods.getTbGoods();
 		tbGoods.setIsDelete(false);
@@ -67,6 +77,19 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 
 
 
+	}
+
+	@Override
+	public void update(Goods goods) {
+		TbGoods tbGoods = goods.getTbGoods();
+		tbGoods.setAuditStatus("0");
+		goodsMapper.updateByPrimaryKey(tbGoods);
+		TbGoodsDesc tbGoodsDesc = goods.getTbGoodsDesc();
+		tbGoodsDescMapper.updateByPrimaryKey(tbGoodsDesc);
+		TbItem tbItem = new TbItem();
+		tbItem.setGoodsId(tbGoods.getId());
+		itemMapper.delete(tbItem);
+		saveItems(goods,tbGoods,tbGoodsDesc);
 	}
 
 	private void saveItems(Goods goods,TbGoods tbGoods,TbGoodsDesc tbGoodsDesc){
@@ -159,6 +182,7 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 
         Example example = new Example(TbGoods.class);
         Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDelete",false);
 
         if(goods!=null){			
 						if(StringUtils.isNotBlank(goods.getSellerId())){
@@ -214,6 +238,17 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 		List<TbItem> select = itemMapper.select(tbItem);
 		goods.setTbItems(select);
 		return goods;
+	}
+
+	@Override
+	public void updateStatus(Long[] ids, String status) {
+		Example example = new Example(TbGoods.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andIn("id",Arrays.asList(ids));
+		TbGoods tbGoods = new TbGoods();
+		tbGoods.setAuditStatus(status);
+
+		goodsMapper.updateByExampleSelective(tbGoods,example);
 	}
 
 }

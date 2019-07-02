@@ -88,7 +88,7 @@
 
 		                                  <td>
 		                                  	<span>
-		                                  	{{['未申请','申请中','审核通过','已驳回'][entity.auditStatus]}}
+		                                  	{{statusList[entity.auditStatus]}}
 		                                  	</span>
 		                                  	<!--<span >-->
 		                                  		<!--申请中-->
@@ -99,8 +99,8 @@
 		                                  	<!--<span>-->
 		                                  		<!--已驳回-->
 		                                  	<!--</span>-->
-		                                  </td>		                                  
-		                                  <td class="text-center">                                          
+		                                  </td>
+		                                  <td class="text-center">
 		                                 	  <a  class="btn bg-olive btn-xs" :href="'goods_edit.html?id='+entity.id">修改</a>
 		                                  </td>
 			                          </tr>

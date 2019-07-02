@@ -1,15 +1,16 @@
 package com.pinyougou.manager.controller;
-import java.util.List;
 
-import entity.Goods;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.github.pagehelper.PageInfo;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.sellergoods.service.GoodsService;
-
-import com.github.pagehelper.PageInfo;
+import entity.Goods;
 import entity.Result;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 /**
  * controller
  * @author Administrator
@@ -47,6 +48,8 @@ public class GoodsController {
 	@RequestMapping("/add")
 	public Result add(@RequestBody Goods goods){
 		try {
+			String name = SecurityContextHolder.getContext().getAuthentication().getName();
+			goods.getTbGoods().setSellerId(name);
 			goodsService.add(goods);
 			return new Result(true, "增加成功");
 		} catch (Exception e) {
@@ -61,7 +64,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public Result update(@RequestBody TbGoods goods){
+	public Result update(@RequestBody Goods goods){
 		try {
 			goodsService.update(goods);
 			return new Result(true, "修改成功");
@@ -69,8 +72,19 @@ public class GoodsController {
 			e.printStackTrace();
 			return new Result(false, "修改失败");
 		}
-	}	
-	
+	}
+
+	@RequestMapping("/updateStatus/{status}")
+	public Result update(@PathVariable(value = "status")String status,@RequestBody Long[] ids ){
+		try {
+			goodsService.updateStatus(ids,status);
+			return new Result(true, "修改成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "修改失败");
+		}
+	}
+
 	/**
 	 * 获取实体
 	 * @param id
@@ -103,6 +117,7 @@ public class GoodsController {
     public PageInfo<TbGoods> findPage(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
                                       @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
                                       @RequestBody TbGoods goods) {
+//		goods.setSellerId(SecurityContextHolder.getContext().getAuthentication().getName());
         return goodsService.findPage(pageNo, pageSize, goods);
     }
 	

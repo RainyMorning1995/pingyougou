@@ -15,6 +15,8 @@ public interface GoodsService extends CoreService<TbGoods> {
 	
 	
 	public void add(Goods goods);
+
+	public void update(Goods goods);
 	/**
 	 * 返回分页列表
 	 * @return
@@ -33,5 +35,7 @@ public interface GoodsService extends CoreService<TbGoods> {
 
 
 	public Goods findOne(Long id);
+
+	public void updateStatus(Long[] ids, String status);
 	
 }

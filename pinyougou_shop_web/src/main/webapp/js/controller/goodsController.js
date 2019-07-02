@@ -70,14 +70,14 @@
             axios.post('/goods/update.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
-                    app.searchList(1);
+                    window.location.href = "goods.html";
                 }
             }).catch(function (error) {
                 console.log("1231312131321");
             });
         },
         save:function () {
-            if(this.entity.id!=null){
+            if(this.entity.tbGoods.id!=null){
                 this.update();
             }else{
                 this.add();
