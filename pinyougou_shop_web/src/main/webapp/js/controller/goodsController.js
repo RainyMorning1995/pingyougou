@@ -163,7 +163,7 @@
             }
         },
         isCheckde:function (specName,speValue) {
-            var obj = this.searchObjectByKey(this.entity.tbGoodsDesc.specificationItems,specName,'attributeName',);
+            var obj = this.searchObjectByKey(this.entity.tbGoodsDesc.specificationItems,specName,'attributeName');
             if (obj != null) {
                 if (obj.attributeValue.indexOf(speValue) != -1 ) {
                     return true;
