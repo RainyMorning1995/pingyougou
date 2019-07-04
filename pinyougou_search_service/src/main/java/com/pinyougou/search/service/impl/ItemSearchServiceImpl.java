@@ -1,5 +1,6 @@
 package com.pinyougou.search.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.search.service.ItemSearchService;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -13,7 +14,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Service
 public class ItemSearchServiceImpl implements ItemSearchService {
 
     @Autowired
