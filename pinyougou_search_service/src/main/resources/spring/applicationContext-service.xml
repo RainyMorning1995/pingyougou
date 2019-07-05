@@ -17,5 +17,6 @@
 
     <!--引入ES-->
     <import resource="applicationContext-es.xml"></import>
+    <import resource="applicationContext-redis.xml"></import>
 
 </beans>

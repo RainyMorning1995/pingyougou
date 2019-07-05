@@ -113,8 +113,9 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
          for (TbTypeTemplate tbTypeTemplate : tbTypeTemplateList) {
              List<Map> brandList = JSON.parseArray(tbTypeTemplate.getBrandIds(), Map.class);
              redisTemplate.boundHashOps("brandList").put(tbTypeTemplate.getId(),brandList);
-             List<Map> specList = findSpecList(typeTemplate.getId());
-             redisTemplate.boundHashOps("specList").put(typeTemplate.getId(),specList);
+             List<Map> specList = findSpecList(tbTypeTemplate.getId());
+
+             redisTemplate.boundHashOps("specList").put(tbTypeTemplate.getId(),specList);
 
          }
 

@@ -6,11 +6,19 @@
         list:[],
         entity:{},
         ids:[],
-        searchMap:{},
+        searchMap:{'keywords':'','category':''},
         resultMap:{},
         searchEntity:{}
     },
     methods: {
+        addSearchItem:function (key, value) {
+
+            if (key == 'category') {
+                this.searchMap[key] = value;
+            }
+            this.searchList();
+        }
+        ,
         searchList:function () {
             axios.post('/itemSearch/search.shtml',this.searchMap).then(function (response) {
                 //获取数据

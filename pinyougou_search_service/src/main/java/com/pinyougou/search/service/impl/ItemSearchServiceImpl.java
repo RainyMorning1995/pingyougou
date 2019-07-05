@@ -24,6 +24,7 @@ import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPa
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,10 +36,17 @@ public class ItemSearchServiceImpl implements ItemSearchService {
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+
+
+
     @Override
     public Map<String, Object> search(Map<String, Object> searchMap) {
         HashMap<String, Object> resultMap = new HashMap<>();
         String keywords = (String) searchMap.get("keywords");
+
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
         searchQueryBuilder.withQuery(QueryBuilders.multiMatchQuery(keywords,"title","brand","category","seller"));
 
@@ -47,7 +55,10 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         searchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("title"))
                 .withHighlightBuilder(new HighlightBuilder().preTags("<em style=\"color:red\">").postTags("</em>"));
 
-
+        String category = (String) searchMap.get("category");
+        if (StringUtils.isNoneBlank(category)) {
+            searchQueryBuilder.withFilter(QueryBuilders.termQuery("category",category));
+        }
 
 
         NativeSearchQuery searchQuery = searchQueryBuilder.build();
@@ -105,10 +116,31 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         long totalElements = tbItems.getTotalElements();
         List<TbItem> itemList = tbItems.getContent();
         int totalPages = tbItems.getTotalPages();
+
+        Map map = SearchBrandAndSpecList(categoryList.get(0));
+        resultMap.putAll(map);
+
+
         resultMap.put("rows",itemList);
         resultMap.put("total",totalElements);
         resultMap.put("totalPages",totalPages);
         resultMap.put("categoryList",categoryList);
         return resultMap;
     }
+
+
+    private Map SearchBrandAndSpecList(String category) {
+        Map map = new HashMap();
+        Long typeId = (Long) redisTemplate.boundHashOps("itemCat").get(category);
+        if (typeId != null) {
+            List brandList = (List) redisTemplate.boundHashOps("brandList").get(typeId);
+            map.put("brandList",brandList);
+            List specList = (List) redisTemplate.boundHashOps("specList").get(typeId);
+            map.put("specList",specList);
+        }
+        return map;
+
+    }
+
+
 }
