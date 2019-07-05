@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import com.pinyougou.core.service.CoreServiceImpl;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import tk.mybatis.mapper.entity.Example;
 
 import com.pinyougou.mapper.TbItemCatMapper;
@@ -35,12 +36,20 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
 		this.itemCatMapper=itemCatMapper;
 	}
 
+	@Autowired
+    private RedisTemplate redisTemplate;
+
 
     @Override
     public List<TbItemCat> findParentId(Long id) {
         TbItemCat tbItemCat = new TbItemCat();
         tbItemCat.setParentId(id);
         List<TbItemCat> tbItemCats = itemCatMapper.select(tbItemCat);
+
+        List<TbItemCat> list = findAll();
+        for (TbItemCat itemCat : list) {
+            redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
+        }
         return tbItemCats;
 
     }

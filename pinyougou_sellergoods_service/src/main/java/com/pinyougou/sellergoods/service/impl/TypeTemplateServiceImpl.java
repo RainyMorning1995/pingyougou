@@ -13,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import com.pinyougou.core.service.CoreServiceImpl;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import tk.mybatis.mapper.entity.Example;
 
 import com.pinyougou.mapper.TbTypeTemplateMapper;
@@ -72,7 +73,9 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
     }
 
 	
-	
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 	 @Override
     public PageInfo<TbTypeTemplate> findPage(Integer pageNo, Integer pageSize, TbTypeTemplate typeTemplate) {
@@ -106,7 +109,17 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
         String s = JSON.toJSONString(info);
         PageInfo<TbTypeTemplate> pageInfo = JSON.parseObject(s, PageInfo.class);
 
-        return pageInfo;
+         List<TbTypeTemplate> tbTypeTemplateList = this.findAll();
+         for (TbTypeTemplate tbTypeTemplate : tbTypeTemplateList) {
+             List<Map> brandList = JSON.parseArray(tbTypeTemplate.getBrandIds(), Map.class);
+             redisTemplate.boundHashOps("brandList").put(tbTypeTemplate.getId(),brandList);
+             List<Map> specList = findSpecList(typeTemplate.getId());
+             redisTemplate.boundHashOps("specList").put(typeTemplate.getId(),specList);
+
+         }
+
+
+         return pageInfo;
     }
 	
 }

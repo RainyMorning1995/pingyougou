@@ -15,9 +15,8 @@
             axios.post('/itemSearch/search.shtml',this.searchMap).then(function (response) {
                 //获取数据
                 app.resultMap=response.data;
-
+                console.log(app.resultMap)
                 //当前页
-
             });
         },
         //查询所有品牌列表
