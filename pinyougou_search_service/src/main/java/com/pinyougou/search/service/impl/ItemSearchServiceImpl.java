@@ -7,7 +7,9 @@ import com.pinyougou.search.service.ItemSearchService;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.text.Text;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -16,6 +18,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
@@ -55,13 +58,62 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         searchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("title"))
                 .withHighlightBuilder(new HighlightBuilder().preTags("<em style=\"color:red\">").postTags("</em>"));
 
+
+
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+
         String category = (String) searchMap.get("category");
-        if (StringUtils.isNoneBlank(category)) {
-            searchQueryBuilder.withFilter(QueryBuilders.termQuery("category",category));
+        if(StringUtils.isNotBlank(category)) {
+            boolQueryBuilder.filter(QueryBuilders.termQuery("category", category));
+        }
+
+        //3.3 过滤查询 ----商品的品牌的过滤查询
+
+        String brand = (String) searchMap.get("brand");
+        if(StringUtils.isNotBlank(brand)){
+            boolQueryBuilder.filter(QueryBuilders.termQuery("brand", brand));
         }
 
 
+
+        //3.4 过滤查询 ----规格的过滤查询 获取到规格的名称 和规格的值  执行过滤查询
+        Map<String,String> spec = (Map<String, String>) searchMap.get("spec");//{"网络":"移动4G","机身内存":"16G"}
+        if(spec!=null) {
+            for (String key : spec.keySet()) {
+                boolQueryBuilder.filter(QueryBuilders.termQuery("specMap." + key + ".keyword", spec.get(key)));
+            }
+        }
+
+        String price = (String) searchMap.get("price");
+        if (StringUtils.isNotBlank(price)){
+            String[] split = price.split("-");
+            if (split[1] == "*"){
+                boolQueryBuilder.filter(QueryBuilders.rangeQuery("price").gt(split[0]));
+            }else {
+                boolQueryBuilder.filter(QueryBuilders.rangeQuery("price").from(split[0],true).to(split[1],true));
+            }
+        }
+
+
+
+
+        searchQueryBuilder.withFilter(boolQueryBuilder);
+
         NativeSearchQuery searchQuery = searchQueryBuilder.build();
+
+        //分页
+        Integer pageNo = (Integer) searchMap.get("pageNo");
+        Integer pageSize = (Integer) searchMap.get("pageSize");
+        if (pageSize == null) {
+            pageSize = 40;
+        }
+        if (pageNo == null) {
+            pageNo = 1;
+        }
+        searchQuery.setPageable(PageRequest.of(pageNo-1,pageSize));
+
+
         AggregatedPage<TbItem> tbItems = elasticsearchTemplate.queryForPage(searchQuery, TbItem.class, new SearchResultMapper() {
             @Override
             public <T> AggregatedPage<T> mapResults(SearchResponse searchResponse, Class<T> aClass, Pageable pageable) {
@@ -117,8 +169,22 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         List<TbItem> itemList = tbItems.getContent();
         int totalPages = tbItems.getTotalPages();
 
-        Map map = SearchBrandAndSpecList(categoryList.get(0));
-        resultMap.putAll(map);
+
+        if(StringUtils.isNotBlank(category)){
+            Map map = searchBrandAndSpecList(category);//{ "brandList",[],"specList":[]}
+            resultMap.putAll(map);
+        }else {
+            //否则 查询默认的商品分类下的品牌和规格的列表
+            if(categoryList!=null && categoryList.size()>0) {
+                Map map = searchBrandAndSpecList(categoryList.get(0));//{ "brandList",[],"specList":[]}
+                resultMap.putAll(map);
+            }else{
+                resultMap.put("specList", new HashMap<>());
+                resultMap.put("brandList",new HashMap<>());
+            }
+
+        }
+
 
 
         resultMap.put("rows",itemList);
@@ -129,7 +195,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
     }
 
 
-    private Map SearchBrandAndSpecList(String category) {
+    private Map searchBrandAndSpecList(String category) {
         Map map = new HashMap();
         Long typeId = (Long) redisTemplate.boundHashOps("itemCat").get(category);
         if (typeId != null) {

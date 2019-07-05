@@ -6,24 +6,86 @@
         list:[],
         entity:{},
         ids:[],
-        searchMap:{'keywords':'','category':''},
+        preDott:false,
+        nextDott:false,
+        searchMap:{'keywords':'','category':'','brand':'',spec:{},'price':'','pageNo':1,'pageSize':40},
+        pageLabels:[],
         resultMap:{},
         searchEntity:{}
     },
     methods: {
+        clear:function () {
+            this.searchMap={'keywords':this.searchMap.keywords,'category':'','brand':'',spec:{},'price':'','pageNo':1,'pageSize':40};
+        },
+        queryByPage:function (pageNo) {
+            pageNo = parseInt(pageNo);
+            this.searchMap.pageNo = pageNo;
+            this.searchList();
+        },
+        buildPageLabel:function () {
+            this.pageLabels=[];
+            //显示以当前页为中心的5个页码
+            let firstPage=1;
+            let lastPage=this.resultMap.totalPages;//总页数
+
+            if(this.resultMap.totalPages>5){
+                //判断 如果当前的页码 小于等于3  pageNo<=3      1 2 3 4 5  显示前5页
+                if(this.searchMap.pageNo<=3){
+                    firstPage=1;
+                    lastPage=5;
+                    this.preDott=false;
+                    this.nextDott=true;
+                }else if(this.searchMap.pageNo>=this.resultMap.totalPages-2){//如果当前的页码大于= 总页数-2    98 99 100
+                    firstPage=this.resultMap.totalPages-4;
+                    lastPage=this.resultMap.totalPages;
+                    this.preDott=true;
+                    this.nextDott=false;
+                }else{
+                    firstPage=this.searchMap.pageNo-2;
+                    lastPage=this.searchMap.pageNo+2;
+                    this.preDott=true;
+                    this.nextDott=true;
+
+                }
+            }else{
+                this.preDott=false;
+                this.nextDott=false;
+            }
+            for(let i=firstPage;i<=lastPage;i++){
+                this.pageLabels.push(i);
+            }
+        },
         addSearchItem:function (key, value) {
 
-            if (key == 'category') {
+            if (key == 'category' || key == 'brand' || key == 'price') {
                 this.searchMap[key] = value;
+            }else {
+
+                this.searchMap.spec[key] = value;
             }
             this.searchList();
-        }
-        ,
+        },
+        removeSearchItem:function (key) {
+
+            if (key == 'category' || key == 'brand' || key == 'price') {
+                this.searchMap[key] = '';
+            }else {
+
+                delete this.searchMap.spec[key];
+            }
+            this.searchList();
+        },
         searchList:function () {
             axios.post('/itemSearch/search.shtml',this.searchMap).then(function (response) {
                 //获取数据
-                app.resultMap=response.data;
-                console.log(app.resultMap)
+                var flag = JSON.stringify(response.data);
+                if (flag != '{}'){
+                    app.resultMap=response.data;
+                }else {
+                    app.resultMap=response.data.rows;
+                }
+                app.buildPageLabel();
+
                 //当前页
             });
         },
