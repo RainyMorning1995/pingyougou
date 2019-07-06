@@ -23,6 +23,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/itheima_spring_security/pom.xml" />
+        <option value="$PROJECT_DIR$/pingyougou_parent/itheima_freemarker/pom.xml" />
         <option value="$PROJECT_DIR$/pinyougou_search_web/pom.xml" />
       </set>
     </option>

@@ -3,6 +3,7 @@ package com.pinyougou.search.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.pinyougou.pojo.TbItem;
+import com.pinyougou.search.dao.ItemSearchDao;
 import com.pinyougou.search.service.ItemSearchService;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
@@ -25,6 +26,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
+import org.springframework.data.elasticsearch.core.query.DeleteQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
@@ -211,6 +213,27 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         resultMap.put("totalPages",totalPages);
         resultMap.put("categoryList",categoryList);
         return resultMap;
+    }
+
+
+    @Autowired
+    private ItemSearchDao dao;
+
+    @Override
+    public void updateIndex(List<TbItem> items) {
+        for (TbItem item : items) {
+            String spec = item.getSpec();
+            Map map = JSON.parseObject(spec, Map.class);
+            item.setSpecMap(map);
+        }
+        dao.saveAll(items);
+    }
+
+    @Override
+    public void deleteByIds(Long[] ids) {
+        DeleteQuery deleteQuery = new DeleteQuery();
+        deleteQuery.setQuery(QueryBuilders.termQuery("goodsId",ids));
+        elasticsearchTemplate.delete(deleteQuery,TbItem.class);
     }
 
 

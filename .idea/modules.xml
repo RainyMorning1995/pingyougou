@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/itheima-freemarker/itheima-freemarker.iml" filepath="$PROJECT_DIR$/itheima-freemarker/itheima-freemarker.iml" />
       <module fileurl="file://$PROJECT_DIR$/itheima_elasticsearch_demo/itheima_elasticsearch_demo.iml" filepath="$PROJECT_DIR$/itheima_elasticsearch_demo/itheima_elasticsearch_demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/pingyougou_parent/pingyougou_parent.iml" filepath="$PROJECT_DIR$/pingyougou_parent/pingyougou_parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou-search-web/pinyougou-search-web.iml" filepath="$PROJECT_DIR$/pinyougou-search-web/pinyougou-search-web.iml" />

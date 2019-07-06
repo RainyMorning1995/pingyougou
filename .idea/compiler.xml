@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="itheima-freemarker" />
         <module name="itheima_elasticsearch_demo" />
         <module name="pinyougou-search-web" />
         <module name="pinyougou_common" />
@@ -26,7 +27,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="itheima-freemarker" target="1.8" />
       <module name="itheima_elasticsearch_demo" target="1.8" />
+      <module name="itheima_freemarker" target="1.8" />
       <module name="itheima_MBG" target="1.8" />
       <module name="itheima_spring_security" target="1.8" />
       <module name="pingyougou_parent" target="1.8" />

@@ -25,6 +25,7 @@
       <module>../pinyougou_search_interface</module>
     <module>../pinyougou_search_service</module>
     <module>../pinyougou-search-web</module>
+    <module>../itheima-freemarker</module>
   </modules>
   <packaging>pom</packaging>
 

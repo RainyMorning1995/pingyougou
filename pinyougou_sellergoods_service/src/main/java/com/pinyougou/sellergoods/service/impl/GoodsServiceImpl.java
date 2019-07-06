@@ -82,9 +82,7 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 		tbGoodsDesc.setGoodsId(tbGoods.getId());
 		tbGoodsDescMapper.insert(tbGoodsDesc);
 		saveItems(goods,tbGoods,tbGoodsDesc);
-
-
-
+		
 	}
 
 	@Override
