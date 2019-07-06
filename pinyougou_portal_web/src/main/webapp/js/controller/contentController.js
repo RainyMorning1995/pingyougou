@@ -6,10 +6,14 @@
         list:[],
         entity:{},
         ids:[],
+        keywords:'',
         searchEntity:{},
         contentList:[]
     },
     methods: {
+        doSearch:function () {
+            window.location.href = "http://localhost:9087/search.html?keywords="+encodeURIComponent(this.keywords);
+        },
         searchList:function (curPage) {
             axios.post('/content/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据

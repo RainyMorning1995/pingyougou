@@ -20,6 +20,7 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
@@ -112,6 +113,24 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             pageNo = 1;
         }
         searchQuery.setPageable(PageRequest.of(pageNo-1,pageSize));
+
+        String sortField = (String) searchMap.get("sortField");
+        String sortType = (String) searchMap.get("sortType");
+
+        if (StringUtils.isNotBlank(sortField) && StringUtils.isNotBlank(sortType)){
+            if ("ASC".equals(sortType)){
+                Sort sort = new Sort(Sort.Direction.ASC,sortField);
+                searchQuery.addSort(sort);
+            }else if ("DESC".equals(sortType)){
+                Sort sort = new Sort(Sort.Direction.DESC, sortField);
+                searchQuery.addSort(sort);
+            }else {
+                System.out.println("不排序");
+            }
+
+
+        }
+
 
 
         AggregatedPage<TbItem> tbItems = elasticsearchTemplate.queryForPage(searchQuery, TbItem.class, new SearchResultMapper() {

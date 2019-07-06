@@ -8,14 +8,32 @@
         ids:[],
         preDott:false,
         nextDott:false,
-        searchMap:{'keywords':'','category':'','brand':'',spec:{},'price':'','pageNo':1,'pageSize':40},
+        searchMap:{'keywords':'','category':'','brand':'',spec:{},'price':'','pageNo':1,'pageSize':40,'sortField':'','sortType':''},
         pageLabels:[],
         resultMap:{},
         searchEntity:{}
     },
     methods: {
+
+        isKeyWordsIsBrand:function () {
+            if (this.resultMap.brandList != null && this.resultMap.brandList.length > 0) {
+
+                for (let i = 0; i < this.resultMap.brandList.length; i++) {
+                    if (this.searchMap.keywords.indexOf(this.resultMap.brandList[i].text) != -1) {
+                        this.searchMap.brand =this.resultMap.brandList[i].text;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+         doSort:function (sortField,sortType) {
+             this.searchMap.sortType = sortType;
+             this.searchMap.sortField = sortField;
+             this.searchList();
+         },
         clear:function () {
-            this.searchMap={'keywords':this.searchMap.keywords,'category':'','brand':'',spec:{},'price':'','pageNo':1,'pageSize':40};
+            this.searchMap={'keywords':this.searchMap.keywords,'category':'','brand':'',spec:{},'price':'','pageNo':1,'pageSize':40,'sortField':'','sortType':''};
         },
         queryByPage:function (pageNo) {
             pageNo = parseInt(pageNo);
@@ -167,9 +185,11 @@
     },
     //钩子函数 初始化了事件和
     created: function () {
-      
-        this.searchList();
-
+        var urlParamObj = this.getUrlParam();
+        if (urlParamObj != null && urlParamObj.keywords != undefined) {
+            this.searchMap.keywords = decodeURIComponent(urlParamObj.keywords);
+            this.searchList();
+        }
     }
 
 });

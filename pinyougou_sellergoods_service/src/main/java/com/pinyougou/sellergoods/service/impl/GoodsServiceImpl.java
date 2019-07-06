@@ -64,7 +64,15 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 		goodsMapper.updateByExampleSelective(tbGoods,example);
 	}
 
-	@Override
+    @Override
+    public List<TbItem> findTbItemByIds(Long[] ids) {
+		Example example = new Example(TbItem.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andIn("goodsId",Arrays.asList(ids)).andEqualTo("status","1");
+		return itemMapper.selectByExample(example);
+	}
+
+    @Override
     public void add(Goods goods) {
 		TbGoods tbGoods = goods.getTbGoods();
 		tbGoods.setIsDelete(false);

@@ -75,7 +75,6 @@
 								<div class="search">
 									<form action="" class="sui-form form-inline">
 
-
 										{{searchMap}}
 
 										<!--searchAutoComplete-->
@@ -154,9 +153,9 @@
 				</ul>
 				<ul class="tags-choose" >
 					<li v-if="searchMap.category!=''" class="tag" >商品分类：{{searchMap.category}}<i class="sui-icon icon-tb-close" @click="removeSearchItem('category')"></i></li>
-					<li v-if="searchMap.brand!=''" class="tag" >品牌：{{searchMap.brand}}<i class="sui-icon icon-tb-close" @click="removeSearchItem('brand')"></i></li>
+					<li v-if="searchMap.brand!='' " class="tag" >品牌：{{searchMap.brand}}<i class="sui-icon icon-tb-close" @click="removeSearchItem('brand')"></i></li>
 					<li class="tag" v-for="(value,key) in searchMap.spec" >{{key}}:{{value}}<i class="sui-icon icon-tb-close" @click="removeSearchItem(key)"></i></li>
-					<li v-if="searchMap.price!=''" class="tag" >品牌：{{searchMap.price}}<i class="sui-icon icon-tb-close" @click="removeSearchItem('price')"></i></li>
+					<li v-if="searchMap.price!=''" class="tag" >价格：{{searchMap.price}}<i class="sui-icon icon-tb-close" @click="removeSearchItem('price')"></i></li>
 				</ul>
 
 				<form class="fl sui-form form-dark">
@@ -174,7 +173,7 @@
                     <div class="fl value" v-for="category in resultMap.categoryList"><a href="#" @click="addSearchItem('category',category)">{{category}}</a></div>
 					<div class="fl ext"></div>
 				</div>
-				<div class="type-wrap logo" v-if="searchMap.brand == ''">
+				<div class="type-wrap logo" v-if="searchMap.brand == '' && isKeyWordsIsBrand() == false">
 					<div class="fl key brand">品牌</div>
 					<div class="value logos">
 						<ul class="logo-list">
@@ -282,13 +281,19 @@
 								<a href="#">销量</a>
 							</li>
 							<li>
-								<a href="#">新品</a>
+								<a href="#" @click="doSort('updateTime','ASC')">新品↑</a>
+							</li>
+							<li>
+								<a href="#" @click="doSort('updateTime','DESC')">新品↓</a>
 							</li>
 							<li>
 								<a href="#">评价</a>
 							</li>
 							<li>
-								<a href="#">价格</a>
+								<a href="#" @click="doSort('price','ASC')">价格↑</a>
+							</li>
+							<li>
+								<a href="#" @click="doSort('price','DESC')">价格↓</a>
 							</li>
 						</ul>
 					</div>
