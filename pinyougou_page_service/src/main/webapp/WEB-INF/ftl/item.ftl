@@ -13,6 +13,29 @@
     <link rel="stylesheet" type="text/css" href="css/pages-zoom.css"/>
     <link rel="stylesheet" type="text/css" href="css/widget-cartPanelView.css"/>
 
+    <script>
+        var skuList=[
+    <#list skuList as item>
+        <#if item_index==(skuList?size-1)>
+            {
+                "id":${item.id?c},
+                "title":"${item.title!''}",
+                "price":${item.price?c},
+                "spec": ${item.spec}
+            }
+        <#else>
+            {
+                "id":${item.id?c},
+                "title":"${item.title!''}",
+                "price":${item.price?c},
+                "spec": ${item.spec}
+            } ,
+        </#if>
+
+    </#list>
+        ];
+    </script>
+
 </head>
 <#--图片列表-->
 <#assign imageList=tbGoodsDesc.itemImages?eval />
@@ -75,7 +98,9 @@
             </div>
             <div class="fr itemInfo-wrap">
                 <div class="sku-name">
-                    <h4>${tbGoods.goodsName}</h4>
+                    <h4>
+                        {{sku.title}}
+                    </h4>
                 </div>
                 <div class="news"><span>${tbGoods.caption}</span></div>
                 <div class="summary">
@@ -85,7 +110,7 @@
                         </div>
                         <div class="fl price">
                             <i>¥</i>
-                            <em>${tbGoods.price}</em>
+                            <em>{{sku.price}}</em>
                             <span>降价通知</span>
                         </div>
                         <div class="fr remark">
@@ -545,5 +570,7 @@
 
 
 </body>
+
+
 
 </html>

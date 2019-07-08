@@ -8,15 +8,18 @@ import com.pinyougou.mapper.TbItemMapper;
 import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbGoodsDesc;
+import com.pinyougou.pojo.TbItem;
 import com.pinyougou.pojo.TbItemCat;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -60,6 +63,7 @@ public class ItemPageServiceImpl implements ItemPageService {
             TbItemCat tbItemCat3 = itemCatMapper.selectByPrimaryKey(tbGoods.getCategory3Id());
 
 
+
             Map map = new HashMap();
             map.put("tbGoods",tbGoods);
             map.put("tbGoodsDesc",tbGoodsDesc);
@@ -67,7 +71,13 @@ public class ItemPageServiceImpl implements ItemPageService {
             map.put("tbItemCat2",tbItemCat2.getName());
             map.put("tbItemCat3",tbItemCat3.getName());
 
-
+            Example example = new Example(TbItem.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("goodsId",tbGoods.getId());
+            criteria.andEqualTo("status",1);
+            example.setOrderByClause("is_default desc");
+            List<TbItem> itemList = itemMapper.selectByExample(example);
+            map.put("skuList",itemList);
 
             //解决输出HTML乱码
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pageDir + tbGoods.getId() + ".html"), "UTF-8"));
