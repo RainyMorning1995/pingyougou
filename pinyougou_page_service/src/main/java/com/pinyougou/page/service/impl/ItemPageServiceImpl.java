@@ -1,5 +1,6 @@
 package com.pinyougou.page.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.pinyougou.mapper.TbGoodsDescMapper;
 import com.pinyougou.mapper.TbGoodsMapper;
 import com.pinyougou.mapper.TbItemCatMapper;
@@ -7,10 +8,18 @@ import com.pinyougou.mapper.TbItemMapper;
 import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbGoodsDesc;
+import com.pinyougou.pojo.TbItemCat;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
 public class ItemPageServiceImpl implements ItemPageService {
 
 
@@ -42,13 +51,44 @@ public class ItemPageServiceImpl implements ItemPageService {
 
     private void genHtml(String templateName, TbGoods tbGoods, TbGoodsDesc tbGoodsDesc) {
 
+        Writer out = null;
         try {
+            Configuration configuration = configurer.getConfiguration();
+            Template template = configuration.getTemplate(templateName);
+            TbItemCat tbItemCat1 = itemCatMapper.selectByPrimaryKey(tbGoods.getCategory1Id());
+            TbItemCat tbItemCat2 = itemCatMapper.selectByPrimaryKey(tbGoods.getCategory2Id());
+            TbItemCat tbItemCat3 = itemCatMapper.selectByPrimaryKey(tbGoods.getCategory3Id());
 
+
+            Map map = new HashMap();
+            map.put("tbGoods",tbGoods);
+            map.put("tbGoodsDesc",tbGoodsDesc);
+            map.put("tbItemCat1",tbItemCat1.getName());
+            map.put("tbItemCat2",tbItemCat2.getName());
+            map.put("tbItemCat3",tbItemCat3.getName());
+
+
+
+            //解决输出HTML乱码
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pageDir + tbGoods.getId() + ".html"), "UTF-8"));
+            //out = new FileWriter(new File(pageDir + tbGoods.getId() + ".html"));
+            template.process(map,out);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
 
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
+
+
+
 
 
     }

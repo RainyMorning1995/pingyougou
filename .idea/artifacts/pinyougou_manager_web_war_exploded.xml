@@ -77,8 +77,8 @@
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.9.1" />
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.9.1" />
           <element id="library" level="project" name="Maven: org.elasticsearch:jna:4.5.1" />
-          <element id="archive" name="pinyougou_sellergoods_interface-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="pinyougou_sellergoods_interface" />
+          <element id="archive" name="pinyougou_page_interface-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="pinyougou_page_interface" />
           </element>
           <element id="archive" name="pinyougou_core_service-1.0-SNAPSHOT.jar">
             <element id="module-output" name="pinyougou_core_service" />
@@ -91,6 +91,9 @@
           <element id="library" level="project" name="Maven: tk.mybatis:mapper:3.4.6" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.32" />
           <element id="library" level="project" name="Maven: com.alibaba:druid:1.0.9" />
+          <element id="archive" name="pinyougou_sellergoods_interface-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="pinyougou_sellergoods_interface" />
+          </element>
           <element id="archive" name="pinyougou_common-1.0-SNAPSHOT.jar">
             <element id="module-output" name="pinyougou_common" />
           </element>

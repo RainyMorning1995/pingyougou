@@ -2,6 +2,7 @@ package com.pinyougou.manager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
+import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.search.service.ItemSearchService;
@@ -27,6 +28,9 @@ public class GoodsController {
 
 	@Reference
 	private ItemSearchService searchService;
+
+	@Reference
+	private ItemPageService itemPageService;
 	
 	/**
 	 * 返回全部列表
@@ -79,6 +83,8 @@ public class GoodsController {
 		}
 	}
 
+
+
 	@RequestMapping("/updateStatus/{status}")
 	public Result update(@PathVariable(value = "status")String status,@RequestBody Long[] ids ){
 		try {
@@ -86,9 +92,15 @@ public class GoodsController {
 
 			//更新索引库
 			if ("1".equals(status)){
-				List<TbItem> tbItemByIds = goodsService.findTbItemByIds(ids);
-				searchService.updateIndex(tbItemByIds);
+//				List<TbItem> tbItemByIds = goodsService.findTbItemByIds(ids);
+//				searchService.updateIndex(tbItemByIds);
+
+				for (Long id : ids) {
+					itemPageService.genItemHtml(id);
+				}
 			}
+
+
 
 
 			return new Result(true, "更新成功");
