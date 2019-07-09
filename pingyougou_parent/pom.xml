@@ -28,6 +28,9 @@
     <module>../itheima-freemarker</module>
     <module>../pinyougou_page_interface</module>
     <module>../pinyougou_page_service</module>
+    <module>../pinyougou_page_web</module>
+    <module>../itheima-rokectmq-producer</module>
+    <module>../itheima-rokectmq-consumer</module>
   </modules>
   <packaging>pom</packaging>
 

@@ -92,9 +92,8 @@ public class GoodsController {
 
 			//更新索引库
 			if ("1".equals(status)){
-//				List<TbItem> tbItemByIds = goodsService.findTbItemByIds(ids);
-//				searchService.updateIndex(tbItemByIds);
-
+				List<TbItem> tbItemByIds = goodsService.findTbItemByIds(ids);
+				searchService.updateIndex(tbItemByIds);
 				for (Long id : ids) {
 					itemPageService.genItemHtml(id);
 				}

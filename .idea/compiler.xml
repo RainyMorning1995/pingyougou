@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="itheima-freemarker" />
+        <module name="itheima-rokectmq-consumer" />
+        <module name="itheima-rokectmq-producer" />
         <module name="itheima_elasticsearch_demo" />
         <module name="pinyougou-search-web" />
         <module name="pinyougou_common" />
@@ -18,6 +20,7 @@
         <module name="pinyougou_manager_web" />
         <module name="pinyougou_page_interface" />
         <module name="pinyougou_page_service" />
+        <module name="pinyougou_page_web" />
         <module name="pinyougou_pojo" />
         <module name="pinyougou_portal_web" />
         <module name="pinyougou_search_interface" />
@@ -30,6 +33,8 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="itheima-freemarker" target="1.8" />
+      <module name="itheima-rokectmq-consumer" target="1.8" />
+      <module name="itheima-rokectmq-producer" target="1.8" />
       <module name="itheima_elasticsearch_demo" target="1.8" />
       <module name="itheima_freemarker" target="1.8" />
       <module name="itheima_MBG" target="1.8" />
@@ -45,6 +50,7 @@
       <module name="pinyougou_manager_web" target="1.8" />
       <module name="pinyougou_page_interface" target="1.8" />
       <module name="pinyougou_page_service" target="1.8" />
+      <module name="pinyougou_page_web" target="1.8" />
       <module name="pinyougou_pojo" target="1.8" />
       <module name="pinyougou_portal_web" target="1.8" />
       <module name="pinyougou_search_interface" target="1.8" />
