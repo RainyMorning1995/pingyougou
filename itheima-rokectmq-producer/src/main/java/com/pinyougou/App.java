@@ -15,7 +15,7 @@ public class App {
         DefaultMQProducer producer = new DefaultMQProducer("producer_cluster_group1");
         producer.setNamesrvAddr("192.168.25.129:9876");
         producer.start();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 2; i++) {
             Message msg = new Message(
                     "TopicTest",
                     "Tags",
