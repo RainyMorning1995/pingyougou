@@ -12,6 +12,7 @@ import com.pinyougou.pojo.TbItem;
 import com.pinyougou.pojo.TbItemCat;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -50,6 +51,17 @@ public class ItemPageServiceImpl implements ItemPageService {
         TbGoods tbGoods = tbGoodsMapper.selectByPrimaryKey(goodsId);
         TbGoodsDesc tbGoodsDesc = tbGoodsDescMapper.selectByPrimaryKey(goodsId);
         genHtml("Item.ftl",tbGoods,tbGoodsDesc);
+    }
+
+    @Override
+    public void deleteById(Long[] longs) {
+        try {
+            for (Long aLong : longs) {
+                FileUtils.forceDelete(new File(pageDir + aLong + ".html"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void genHtml(String templateName, TbGoods tbGoods, TbGoodsDesc tbGoodsDesc) {

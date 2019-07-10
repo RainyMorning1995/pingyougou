@@ -45,5 +45,6 @@
     <dubbo:consumer timeout="100000"></dubbo:consumer>
 
     <import resource="classpath:spring-security.xml"></import>
+    <import resource="spring-producer.xml"></import>
 
 </beans>

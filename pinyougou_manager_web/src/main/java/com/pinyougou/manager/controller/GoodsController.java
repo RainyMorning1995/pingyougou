@@ -1,14 +1,19 @@
 package com.pinyougou.manager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import com.pinyougou.common.pojo.MessageInfo;
 import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbItem;
-import com.pinyougou.search.service.ItemSearchService;
 import com.pinyougou.sellergoods.service.GoodsService;
 import entity.Goods;
 import entity.Result;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +31,14 @@ public class GoodsController {
 	@Reference
 	private GoodsService goodsService;
 
-	@Reference
-	private ItemSearchService searchService;
+//	@Reference
+//	private ItemSearchService searchService;
 
 	@Reference
 	private ItemPageService itemPageService;
+
+	@Autowired
+	private DefaultMQProducer producer;
 	
 	/**
 	 * 返回全部列表
@@ -93,10 +101,16 @@ public class GoodsController {
 			//更新索引库
 			if ("1".equals(status)){
 				List<TbItem> tbItemByIds = goodsService.findTbItemByIds(ids);
-				searchService.updateIndex(tbItemByIds);
-				for (Long id : ids) {
-					itemPageService.genItemHtml(id);
-				}
+				MessageInfo messageInfo = new MessageInfo("Goods_Topic", "goods_update_tag", "updateStatus", tbItemByIds, MessageInfo.METHOD_DELETE);
+				SendResult result = producer.send(new Message(
+						messageInfo.getTopic(), messageInfo.getTags(), messageInfo.getKeys(),
+						JSON.toJSONString(messageInfo).getBytes()
+				));
+				System.out.println("---"+result.getSendStatus());
+//				searchService.updateIndex(tbItemByIds);
+//				for (Long id : ids) {
+//					itemPageService.genItemHtml(id);
+//				}
 			}
 
 
@@ -128,7 +142,15 @@ public class GoodsController {
 	public Result delete(@RequestBody Long[] ids){
 		try {
 			goodsService.delete(ids);
-			searchService.deleteByIds(ids);
+
+			MessageInfo messageInfo = new MessageInfo("Goods_Topic", "goods_delete_tag", "delete", ids, MessageInfo.METHOD_DELETE);
+			SendResult result = producer.send(new Message(
+					messageInfo.getTopic(), messageInfo.getTags(), messageInfo.getKeys(),
+					JSON.toJSONString(messageInfo).getBytes()
+			));
+			System.out.println("---"+result.getSendStatus());
+
+//			searchService.deleteByIds(ids);
 			return new Result(true, "删除成功"); 
 		} catch (Exception e) {
 			e.printStackTrace();

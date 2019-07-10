@@ -16,8 +16,8 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.0.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:5.0.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.0.0.RELEASE" />
-          <element id="archive" name="pinyougou_search_interface-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="pinyougou_search_interface" />
+          <element id="archive" name="pinyougou_page_interface-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="pinyougou_page_interface" />
           </element>
           <element id="archive" name="pinyougou_pojo-1.0-SNAPSHOT.jar">
             <element id="module-output" name="pinyougou_pojo" />
@@ -77,9 +77,6 @@
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.9.1" />
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.9.1" />
           <element id="library" level="project" name="Maven: org.elasticsearch:jna:4.5.1" />
-          <element id="archive" name="pinyougou_page_interface-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="pinyougou_page_interface" />
-          </element>
           <element id="archive" name="pinyougou_core_service-1.0-SNAPSHOT.jar">
             <element id="module-output" name="pinyougou_core_service" />
           </element>
@@ -118,6 +115,12 @@
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-redis:2.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-keyvalue:2.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-oxm:5.0.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-client:4.4.0" />
+          <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-common:4.4.0" />
+          <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-remoting:4.4.0" />
+          <element id="library" level="project" name="Maven: io.netty:netty-all:4.0.42.Final" />
+          <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-logging:4.4.0" />
+          <element id="library" level="project" name="Maven: io.netty:netty-tcnative-boringssl-static:1.1.33.Fork26" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:5.0.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.0.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:5.0.2.RELEASE" />
