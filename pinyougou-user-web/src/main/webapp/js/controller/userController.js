@@ -7,7 +7,8 @@
         entity:{},
         ids:[],
         searchEntity:{},
-        smsCode:''
+        smsCode:'',
+        repwd:''
     },
     methods: {
         createSmsCode:function () {

@@ -6,8 +6,9 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 
-public class Person {
+public class Person implements Serializable {
 
     @Email(message = "邮箱不正确")
     @Length(min = 5,max = 20,message = "邮箱长度为5-20")

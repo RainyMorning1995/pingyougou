@@ -1,32 +1,45 @@
 package com.pinyougou.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Result implements Serializable {
-    private Boolean success;
+    private boolean success;
+
     private String message;
 
-    @Override
-    public String toString() {
-        return "Result{" +
-                "success=" + success +
-                ", message='" + message + '\'' +
-                '}';
+    //错误信息
+    private List<Error> errorsList= new ArrayList<>();
+
+    public List<Error> getErrorsList() {
+        return errorsList;
+    }
+
+    public void setErrorsList(List<Error> errorsList) {
+        this.errorsList = errorsList;
+    }
+
+    public Result(boolean success, String message, List<Error> errorsList) {
+        this.success = success;
+        this.message = message;
+        this.errorsList = errorsList;
     }
 
     public Result() {
+
     }
 
-    public Result(Boolean success, String message) {
+    public Result(boolean success, String message) {
         this.success = success;
         this.message = message;
     }
 
-    public Boolean getSuccess() {
+    public boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(Boolean success) {
+    public void setSuccess(boolean success) {
         this.success = success;
     }
 
@@ -37,4 +50,6 @@ public class Result implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }

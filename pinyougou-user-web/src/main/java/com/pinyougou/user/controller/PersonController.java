@@ -1,5 +1,6 @@
 package com.pinyougou.user.controller;
 
+import com.pinyougou.entity.Error;
 import com.pinyougou.entity.Result;
 import com.pinyougou.user.modal.Person;
 import org.springframework.validation.BindingResult;
@@ -19,10 +20,14 @@ public class PersonController {
     public Result add(@Valid @RequestBody Person person, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            Result result = new Result(false,"error");
             for (FieldError fieldError : fieldErrors) {
+                Error error = new Error(fieldError.getField(), fieldError.getDefaultMessage());
+                List<Error> errorsList = result.getErrorsList();
+                errorsList.add(error);
                 System.out.println("错误信息:"+fieldError.getDefaultMessage());
             }
-            return new Result(false,"error");
+            return result;
         }else {
             return new Result(true,"成功");
         }
