@@ -5,9 +5,12 @@
       <module fileurl="file://$PROJECT_DIR$/itheima-freemarker/itheima-freemarker.iml" filepath="$PROJECT_DIR$/itheima-freemarker/itheima-freemarker.iml" />
       <module fileurl="file://$PROJECT_DIR$/itheima-rokectmq-consumer/itheima-rokectmq-consumer.iml" filepath="$PROJECT_DIR$/itheima-rokectmq-consumer/itheima-rokectmq-consumer.iml" />
       <module fileurl="file://$PROJECT_DIR$/itheima-rokectmq-producer/itheima-rokectmq-producer.iml" filepath="$PROJECT_DIR$/itheima-rokectmq-producer/itheima-rokectmq-producer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/itheima-sms-demo/itheima-sms-demo.iml" filepath="$PROJECT_DIR$/itheima-sms-demo/itheima-sms-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/itheima-sms-service/itheima-sms-service.iml" filepath="$PROJECT_DIR$/itheima-sms-service/itheima-sms-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/itheima_elasticsearch_demo/itheima_elasticsearch_demo.iml" filepath="$PROJECT_DIR$/itheima_elasticsearch_demo/itheima_elasticsearch_demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/pingyougou_parent/pingyougou_parent.iml" filepath="$PROJECT_DIR$/pingyougou_parent/pingyougou_parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou-search-web/pinyougou-search-web.iml" filepath="$PROJECT_DIR$/pinyougou-search-web/pinyougou-search-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou-user-web/pinyougou-user-web.iml" filepath="$PROJECT_DIR$/pinyougou-user-web/pinyougou-user-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou_common/pinyougou_common.iml" filepath="$PROJECT_DIR$/pinyougou_common/pinyougou_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou_content_interface/pinyougou_content_interface.iml" filepath="$PROJECT_DIR$/pinyougou_content_interface/pinyougou_content_interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou_content_service/pinyougou_content_service.iml" filepath="$PROJECT_DIR$/pinyougou_content_service/pinyougou_content_service.iml" />
@@ -26,6 +29,8 @@
       <module fileurl="file://$PROJECT_DIR$/pinyougou_sellergoods_service/pinyougou_sellergoods_service.iml" filepath="$PROJECT_DIR$/pinyougou_sellergoods_service/pinyougou_sellergoods_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou_shop_web/pinyougou_shop_web.iml" filepath="$PROJECT_DIR$/pinyougou_shop_web/pinyougou_shop_web.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou_upload_web/pinyougou_upload_web.iml" filepath="$PROJECT_DIR$/pinyougou_upload_web/pinyougou_upload_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou_user_interface/pinyougou_user_interface.iml" filepath="$PROJECT_DIR$/pinyougou_user_interface/pinyougou_user_interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou_user_service/pinyougou_user_service.iml" filepath="$PROJECT_DIR$/pinyougou_user_service/pinyougou_user_service.iml" />
     </modules>
   </component>
 </project>

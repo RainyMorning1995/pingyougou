@@ -101,7 +101,7 @@ public class GoodsController {
 			//更新索引库
 			if ("1".equals(status)){
 				List<TbItem> tbItemByIds = goodsService.findTbItemByIds(ids);
-				MessageInfo messageInfo = new MessageInfo("Goods_Topic", "goods_update_tag", "updateStatus", tbItemByIds, MessageInfo.METHOD_DELETE);
+				MessageInfo messageInfo = new MessageInfo("Goods_Topic", "goods_update_tag", "updateStatus", tbItemByIds, MessageInfo.METHOD_UPDATE);
 				SendResult result = producer.send(new Message(
 						messageInfo.getTopic(), messageInfo.getTags(), messageInfo.getKeys(),
 						JSON.toJSONString(messageInfo).getBytes()

@@ -25,12 +25,13 @@
     </tx:advice>
     <!-- 切面 -->
     <aop:config>
-        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.pinyougou.content.service.impl.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.pinyougou.user.service.impl.*.*(..))"/>
     </aop:config>
 
     <!-- 引入-->
     <import resource="applicationContext-dao.xml"></import>
+    <import resource="applicationContext-redis.xml"></import>
     <import resource="applicationContext-service.xml"></import>
-    <import resource="applicationContext-conumser.xml"></import>
+    <import resource="applicationContext-mq-sms-producer.xml"></import>
 
 </beans>

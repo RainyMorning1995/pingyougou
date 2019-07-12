@@ -25,7 +25,8 @@ public class PageMessageListener implements MessageListenerConcurrently {
             if (list != null)
                 for (MessageExt msg : list) {
                     byte[] body = msg.getBody();
-                    MessageInfo info = JSON.parseObject(body, MessageInfo.class);
+                    String s1 = new String(body);
+                    MessageInfo info = JSON.parseObject(s1, MessageInfo.class);
 
 
                     switch (info.getMethod()) {
