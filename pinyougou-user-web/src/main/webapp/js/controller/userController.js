@@ -5,12 +5,20 @@
         pageNo:1,
         list:[],
         entity:{},
+        loginName:'',
         ids:[],
         searchEntity:{},
         smsCode:'',
         repwd:''
     },
     methods: {
+        getName:function () {
+            axios.get("/login/name.shtml").then(function (response) {
+                app.loginName = response.data;
+            })
+        }
+
+        ,
         createSmsCode:function () {
             axios.get("/user/sendCode.shtml?phone="+this.entity.phone).then(function (response) {
                 if (response.data.success) {
@@ -63,6 +71,13 @@
         },
         //该方法只要不在生命周期的
         add:function () {
+            var that = this;
+            this.$validator.validate().then(function (result) {
+                    if (result) {
+
+                    }
+                }
+            )
             axios.post('/user/add/'+this.smsCode+'.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
@@ -71,6 +86,26 @@
             }).catch(function (error) {
                 console.log("1231312131321");
             });
+        },
+        formSubmit:function () {
+            var that=this;
+            this.$validator.validate().then(
+                function (result) {
+                    if(result){
+                        console.log(that);
+                        axios.post('/user/add/'+that.smsCode+'.shtml',that.entity).then(function (response) {
+                            if(response.data.success){
+                                //跳转到其用户后台的首页
+                                window.location.href="home-index.html";
+                            }else{
+                                that.$validator.errors.add(response.data.errorsList);
+                            }
+                        }).catch(function (error) {
+                            console.log("1231312131321");
+                        });
+                    }
+                }
+            )
         },
         update:function () {
             axios.post('/user/update.shtml',this.entity).then(function (response) {
@@ -112,7 +147,7 @@
     },
     //钩子函数 初始化了事件和
     created: function () {
-
+        this.getName();
 
     }
 

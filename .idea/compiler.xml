@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="itheima-cas-security" />
         <module name="itheima-freemarker" />
         <module name="itheima-rokectmq-consumer" />
         <module name="itheima-rokectmq-producer" />
@@ -37,6 +38,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="itheima-cas-security" target="1.8" />
       <module name="itheima-freemarker" target="1.8" />
       <module name="itheima-rokectmq-consumer" target="1.8" />
       <module name="itheima-rokectmq-producer" target="1.8" />

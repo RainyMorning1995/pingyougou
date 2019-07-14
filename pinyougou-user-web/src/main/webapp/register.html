@@ -29,7 +29,7 @@
 					<div class="control-group">
 						<label class="control-label">用户名：</label>
 						<div class="controls">
-							<input validate="'required|alpha_num'"  name="username" type="text" placeholder="请输入你的用户名" class="input-xfat input-xlarge" v-model="entity.username">
+							<input v-validate="'required|alpha_num'"  name="username" type="text" placeholder="请输入你的用户名" class="input-xfat input-xlarge" v-model="entity.username">
 							<span style="color: red">
 								{{errors.first('username')}}
 							</span>
@@ -38,7 +38,7 @@
 					<div class="control-group">
 						<label  for="inputPassword" class="control-label" >登录密码：</label>
 						<div class="controls">
-							<input type="password" name="password" validate="'required'" ref="password" placeholder="设置登录密码" class="input-xfat input-xlarge" v-model="entity.password">
+							<input type="password" name="password" v-validate="'required'" ref="password" placeholder="设置登录密码" class="input-xfat input-xlarge" v-model="entity.password">
 							<span style="color: red;">
 								{{errors.first('password')}}
 							</span>
@@ -47,17 +47,17 @@
 					<div class="control-group">
 						<label  for="inputPassword" class="control-label" >确认密码：</label>
 						<div class="controls">
-							<input v-model="repwd" name="repwd" type="password" validate="'required|confirmed:password'" placeholder="再次确认密码" class="input-xfat input-xlarge">
+							<input v-model="repwd" name="repwd" type="password" v-validate="'required|confirmed:password'" placeholder="再次确认密码" class="input-xfat input-xlarge">
 							<span style="color:red;">
 								{{errors.first('repwd')}}
 							</span>
 						</div>
 					</div>
-					
+
 					<div class="control-group">
 						<label class="control-label">手机号：</label>
 						<div class="controls">
-							<input v-model="entity.phone" name="phone" validate="{ required: true, regex: '^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$' }" type="text" placeholder="请输入你的手机号" class="input-xfat input-xlarge">
+							<input v-model="entity.phone" name="phone" v-validate="{ required: true, regex: '^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$' }" type="text" placeholder="请输入你的手机号" class="input-xfat input-xlarge">
 							<span style="color: red">
 								{{errors.first('phone')}}
 							</span>
@@ -66,13 +66,13 @@
 					<div class="control-group">
 						<label for="inputPassword" class="control-label">短信验证码：</label>
 						<div class="controls">
-							<input validate="'length:6|digits:6'" name="smsCode" type="text" v-model="smsCode" placeholder="短信验证码" class="input-xfat input-xlarge">  <a href="#" @click="createSmsCode()">获取短信验证码</a>
+							<input v-validate="'length:6|digits:6'" name="smsCode" type="text" v-model="smsCode" placeholder="短信验证码" class="input-xfat input-xlarge">  <a href="#" @click="createSmsCode()">获取短信验证码</a>
 							<span style="color: red">
 								{{errors.first('smsCode')}}
 							</span>
 						</div>
 					</div>
-					
+
 					<div class="control-group">
 						<label for="inputPassword" class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						<div class="controls">
@@ -82,7 +82,7 @@
 					<div class="control-group">
 						<label class="control-label"></label>
 						<div class="controls btn-reg">
-							<a class="sui-btn btn-block btn-xlarge btn-danger" target="_blank" @click="add()">完成注册</a>
+							<a class="sui-btn btn-block btn-xlarge btn-danger" target="_blank" @click="formSubmit()">完成注册</a>
 						</div>
 					</div>
 				</form>

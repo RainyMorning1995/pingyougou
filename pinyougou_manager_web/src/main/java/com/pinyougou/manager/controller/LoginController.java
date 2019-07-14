@@ -9,7 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     @RequestMapping("/getName")
-    public String getLoginName(){
+    public String getLoginName()
+    {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
+
+//    @RequestMapping("/name")
+//    public String getName(){
+//        return SecurityContextHolder.getContext().getAuthentication().getName();
+//    }
 }

@@ -3,8 +3,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.pinyougou.PhoneFormatCheckUtils;
+import com.pinyougou.entity.Error;
 import com.pinyougou.user.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbUser;
@@ -12,6 +15,9 @@ import com.pinyougou.pojo.TbUser;
 
 import com.github.pagehelper.PageInfo;
 import entity.Result;
+
+import javax.validation.Valid;
+
 /**
  * controller
  * @author Administrator
@@ -61,9 +67,19 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/add/{smsCode}")
-	public Result add(@RequestBody TbUser user,@PathVariable(value = "smsCode")String smsCode){
+	public Result add(@Valid @RequestBody TbUser user, BindingResult bindingResult, @PathVariable(value = "smsCode")String smsCode){
 		try {
-		    if (userService.checkSmsCode(user.getPhone(),smsCode) == false){
+				if (bindingResult.hasErrors()){
+					Result result = new Result(false, "失败");
+					List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+					for (FieldError fieldError : fieldErrors) {
+						result.getErrorsList().add(new Error(fieldError.getField(),fieldError.getDefaultMessage()));
+					}
+					return result;
+				}
+
+
+			if (userService.checkSmsCode(user.getPhone(),smsCode) == false){
 		        return new Result(false,"验证码错误");
             }
 			user.setCreated(new Date());
