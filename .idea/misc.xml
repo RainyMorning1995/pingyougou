@@ -4,6 +4,7 @@
     <file type="web" url="file://$PROJECT_DIR$/itheima-cas-security" />
     <file type="web" url="file://$PROJECT_DIR$/itheima-sms-service" />
     <file type="web" url="file://$PROJECT_DIR$/itheima_spring_security" />
+    <file type="web" url="file://$PROJECT_DIR$/pinyougou-cart-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-search-web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-user-web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou_content_service" />
@@ -16,6 +17,7 @@
     <file type="web" url="file://$PROJECT_DIR$/pinyougou_shop_web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou_upload_web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou_user_service" />
+    <file type="web" url="file://$PROJECT_DIR$/pinyouogu-cart-web" />
   </component>
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />

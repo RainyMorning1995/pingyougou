@@ -38,6 +38,9 @@
     <module>../pinyougou-user-web</module>
       <module>../itheima-sms-service</module>
       <module>../itheima-cas-security</module>
+      <module>../pinyougou-cart-interface</module>
+    <module>../pinyougou-cart-service</module>
+      <module>../pinyouogu-cart-web</module>
   </modules>
   <packaging>pom</packaging>
 
