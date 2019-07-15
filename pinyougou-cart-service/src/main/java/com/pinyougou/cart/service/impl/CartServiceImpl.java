@@ -7,6 +7,7 @@ import com.pinyougou.mapper.TbItemMapper;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.pojo.TbOrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,6 +23,16 @@ public class CartServiceImpl implements CartService {
     private TbItemMapper itemMapper;
 
     @Override
+    public List<Cart> mergeCartList(List<Cart> cookieList, List<Cart> redisList) {
+        for(Cart cart: cookieList){
+            for(TbOrderItem orderItem:cart.getOrderItemList()){
+                redisList= addGoodsToCartList(redisList,orderItem.getItemId(),orderItem.getNum());
+            }
+        }
+        return redisList;
+    }
+
+    @Override
     public List<Cart> addGoodsToCartList(List<Cart> cartList, Long itemId, Integer num) {
         TbItem tbItem = itemMapper.selectByPrimaryKey(itemId);
         String sellerId = tbItem.getSellerId();
@@ -31,6 +42,7 @@ public class CartServiceImpl implements CartService {
 
 
             Long tbItemId = tbItem.getId();
+            List<TbOrderItem> orderItemList = cart.getOrderItemList();
             TbOrderItem tbOrderItem = findOrderItemByTbItemId(cart,tbItemId);
             if (tbOrderItem != null) {
                 //购物车里有该商品订单
@@ -51,22 +63,20 @@ public class CartServiceImpl implements CartService {
 
             }else {
                 //购物车里没有商品订单
-                cart = new Cart();
+
                 //购物车没有添加该商家id
-                cart.setSellerId(sellerId);
-                cart.setSellerName(tbItem.getSeller());
-                List<TbOrderItem> orderItemList = new ArrayList<>();
+
+
                 TbOrderItem tbOrderItemNew = new TbOrderItem();
                 tbOrderItemNew.setGoodsId(tbItem.getGoodsId());
                 tbOrderItemNew.setItemId(itemId);
                 tbOrderItemNew.setPicPath(tbItem.getImage());
                 tbOrderItemNew.setNum(num);
+                tbOrderItemNew.setTitle(tbItem.getTitle());
                 tbOrderItemNew.setPrice(tbItem.getPrice());
                 double v = num * tbItem.getPrice().doubleValue();
                 tbOrderItemNew.setTotalFee(new BigDecimal(v));
                 orderItemList.add(tbOrderItemNew);
-                cart.setOrderItemList(orderItemList);
-                cartList.add(cart);
 
             }
 
@@ -81,6 +91,7 @@ public class CartServiceImpl implements CartService {
             tbOrderItemNew.setItemId(itemId);
             tbOrderItemNew.setPicPath(tbItem.getImage());
             tbOrderItemNew.setNum(num);
+            tbOrderItemNew.setTitle(tbItem.getTitle());
             tbOrderItemNew.setPrice(tbItem.getPrice());
             double v = num * tbItem.getPrice().doubleValue();
             tbOrderItemNew.setTotalFee(new BigDecimal(v));
@@ -92,6 +103,19 @@ public class CartServiceImpl implements CartService {
 
 
         return cartList;
+    }
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Override
+    public List<Cart> findCartListFromRedis(String username) {
+        return (List<Cart>) redisTemplate.boundHashOps("cartList").get(username);
+    }
+
+    @Override
+    public void saveCartListToRedis(String username, List<Cart> cartList) {
+        redisTemplate.boundHashOps("cartList").put(username,cartList);
     }
 
     /**
@@ -125,4 +149,6 @@ public class CartServiceImpl implements CartService {
         }
         return null;
     }
+
+
 }
