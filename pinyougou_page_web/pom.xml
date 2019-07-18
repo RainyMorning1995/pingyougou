@@ -35,7 +35,18 @@
     </dependencies>
 
     <build>
-        <finalName>pinyougou_page_web</finalName>
+        <finalName>pinyougou-page-web</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <path>/</path>
+                    <port>9105</port>
+                </configuration>
+            </plugin>
+        </plugins>
 
     </build>
 </project>

@@ -45,8 +45,14 @@
 
     <dubbo:consumer timeout="100000"></dubbo:consumer>
 
+
+    <mvc:cors>
+        <mvc:mapping path="/cart/**" allow-credentials="true" allowed-origins="http://localhost:9094"/>
+    </mvc:cors>
+
     <!--引入springsecurity-->
     <import resource="spring-security.xml"></import>
+
 
 
 

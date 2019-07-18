@@ -3,9 +3,53 @@ var app = new Vue({
     data:{
         cartList:[],
         totalMoney:0,//总金额
-        totalNum:0 //总数量
+        totalNum:0 ,//总数量
+        addressList:[],
+        address:{},
+        order:{paymentType:'1'}
     },
     methods:{
+        submitOrder:function () {
+            this.$set(this.order,'receiverAreaName',this.address.address);
+            this.$set(this.order,'receiverMobile',this.address.mobile);
+            this.$set(this.order,'receiver',this.address.contact);
+            axios.post('/order/add.shtml', this.order).then(
+                function (response) {
+                    if(response.data.success){
+                        //跳转到支付页面
+                        window.location.href="pay.html";
+                    }else{
+                        alert(response.data.message);
+                    }
+                }
+            )
+        },
+        selectedType:function (type) {
+            this.order.paymentType = type;
+        },
+        selectedAddress:function (address) {
+            this.address = address;
+        },
+        //是否选中
+        isSelected:function (address) {
+            if (address == this.address) {
+                return true;
+            }else {
+                return false;
+            }
+        }
+        ,
+        findAddressList:function () {
+            axios.get('/address/findAddressListByUserId.shtml').then(function (response) {
+                    app.addressList = response.data;
+                for (let i = 0; i < app.addressList.length; i++) {
+                    if (app.addressList[i].isDefault == '1') {
+                        app.address = app.addressList[i];
+                    }
+                }
+            })
+        }
+        ,
         findCartList:function () {
             axios.get('/cart/findCartList.shtml').then(function (response) {
                 app.cartList = response.data;
@@ -41,5 +85,10 @@ var app = new Vue({
 
     created:function () {
         this.findCartList();
+
+        if (window.location.href.indexOf("getOrderInfo.html") != -1) {
+            this.findAddressList();
+        }
+
     }
 })

@@ -8,6 +8,7 @@ import com.pinyougou.entity.Cart;
 import com.pinyougou.entity.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -78,7 +79,10 @@ public class CartController {
      * @return
      */
     @RequestMapping("/addGoodsToCartList")
+//    @CrossOrigin(origins = "http://localhost:9094",allowCredentials = "true")
     public Result addGoodsToCartList(Long itemId, Integer num, HttpServletRequest request, HttpServletResponse response){
+//        response.setHeader("Access-Control-Allow-Origin", "http://localhost:9094");
+//        response.setHeader("Access-Control-Allow-Credentials", "true");
         try {
             //获取用户名
             String name = SecurityContextHolder.getContextHolderStrategy().getContext().getAuthentication().getName();

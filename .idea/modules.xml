@@ -12,6 +12,10 @@
       <module fileurl="file://$PROJECT_DIR$/pingyougou_parent/pingyougou_parent.iml" filepath="$PROJECT_DIR$/pingyougou_parent/pingyougou_parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou-cart-interface/pinyougou-cart-interface.iml" filepath="$PROJECT_DIR$/pinyougou-cart-interface/pinyougou-cart-interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou-cart-service/pinyougou-cart-service.iml" filepath="$PROJECT_DIR$/pinyougou-cart-service/pinyougou-cart-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou-order-interface/pinyougou-order-interface.iml" filepath="$PROJECT_DIR$/pinyougou-order-interface/pinyougou-order-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou-order-service/pinyougou-order-service.iml" filepath="$PROJECT_DIR$/pinyougou-order-service/pinyougou-order-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou-pay-interface/pinyougou-pay-interface.iml" filepath="$PROJECT_DIR$/pinyougou-pay-interface/pinyougou-pay-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pinyougou-pay-service/pinyougou-pay-service.iml" filepath="$PROJECT_DIR$/pinyougou-pay-service/pinyougou-pay-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou-search-web/pinyougou-search-web.iml" filepath="$PROJECT_DIR$/pinyougou-search-web/pinyougou-search-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou-user-web/pinyougou-user-web.iml" filepath="$PROJECT_DIR$/pinyougou-user-web/pinyougou-user-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinyougou_common/pinyougou_common.iml" filepath="$PROJECT_DIR$/pinyougou_common/pinyougou_common.iml" />

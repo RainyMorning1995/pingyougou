@@ -1,14 +1,29 @@
 var app = new Vue({
     el: "#app",
     data: {
-        num:1,//商品的购买数量
+        num:1,//
         specificationItems:JSON.parse(JSON.stringify(skuList[0].spec)),
         sku:skuList[0]
     },
     methods: {
+        addGoodsToCartList:function () {
+            axios.get('http://localhost:9093/cart/addGoodsToCartList.shtml',{
+                params:{
+                    itemId:this.sku.id,
+                    num:this.num
+                },
+                withCredentials:true
+            }).then(function (respone) {
+                if (respone.data.success) {
+                    window.location.href = "http://localhost:9093/cart.html";
+                }else {
+                    alert(respone.data.message);
+                }
+            })
+        },
         addNum:function(num){
             num = parseInt(num);
-            this.num+=num;//加或者减
+            this.num+=num;//
             if(this.num<=1){
                 this.num=1;
             }
@@ -36,7 +51,7 @@ var app = new Vue({
         }
     },
 
-    //钩子函数 初始化了事件和
+
     created: function () {
 
     }
