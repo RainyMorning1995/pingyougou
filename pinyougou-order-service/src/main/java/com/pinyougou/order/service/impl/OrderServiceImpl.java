@@ -76,6 +76,7 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 
 		for (Cart cart : cartList) {
 			long orderId = idWorker.nextId();
+			orderList.add(orderId);
 			System.out.println("sellerId:"+cart.getSellerId());
 			TbOrder tborder = new TbOrder();
 
@@ -104,12 +105,15 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 				orderItemMapper.insert(orderItem);
 			}
 			tborder.setPayment(new BigDecimal(money));
+			total_money+= money;
 			orderMapper.insert(tborder);
 			}
 
 		TbPayLog tbPayLog = new TbPayLog();
 		String ids = orderList.toString().replace("[", "").replace("]", "");
 		tbPayLog.setOrderList(ids);
+		String s = idWorker.nextId() + "";
+		tbPayLog.setOutTradeNo(s);//支付订单号
 		tbPayLog.setTradeState("1");
 		tbPayLog.setTotalFee((long) (total_money*100));
 		tbPayLog.setTradeState("0");
@@ -235,7 +239,7 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 		String orderList = tbPayLog.getOrderList();
 		String[] orderIds = orderList.split(",");
 		for (String orderId : orderIds) {
-			TbOrder tbOrder = orderMapper.selectByPrimaryKey(orderId);
+			TbOrder tbOrder = orderMapper.selectByPrimaryKey(Long.parseLong(orderId));
 			if (tbOrder != null) {
 				tbOrder.setStatus("2");
 				orderMapper.updateByPrimaryKey(tbOrder);
