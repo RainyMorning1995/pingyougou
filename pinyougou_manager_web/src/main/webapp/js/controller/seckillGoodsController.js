@@ -9,6 +9,13 @@
         searchEntity:{}
     },
     methods: {
+        updateStatus:function (status) {
+            axios.post('/seckillGoods/updateStatus.shtml?status='+status,this.ids).then(function (response) {
+                if (response.data.success) {
+                    app.searchList(1);
+                }
+            })
+        },
         searchList:function (curPage) {
             axios.post('/seckillGoods/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据

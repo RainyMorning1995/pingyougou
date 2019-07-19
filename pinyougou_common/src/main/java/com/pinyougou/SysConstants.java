@@ -29,5 +29,11 @@ public class SysConstants {
     //用于标识用户已秒杀下单排队中的key
     public static final String SEC_USER_QUEUE_FLAG_KEY="SEC_USER_QUEUE_FLAG_KEY";
 
+    //所有商品的集合数据的key
+    public static final Object SEC_KILL_GOODS = "seckillGoods";
 
+    //秒杀所有订单的key
+    public static final String SEC_KILL_ORDER="seckillOrder";
 }
+
+

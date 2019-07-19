@@ -7,17 +7,8 @@
           <element id="module-output" name="pinyougou_manager_web" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.0.0.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.0.0.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.0.2.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.0.2.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-core:5.0.2.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.0.2.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.0.2.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-web:5.0.2.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.0.0.RELEASE" />
-          <element id="archive" name="pinyougou_page_interface-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="pinyougou_page_interface" />
+          <element id="archive" name="pinyougou-seckill-interface-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="pinyougou-seckill-interface" />
           </element>
           <element id="archive" name="pinyougou_pojo-1.0-SNAPSHOT.jar">
             <element id="module-output" name="pinyougou_pojo" />
@@ -92,6 +83,18 @@
           <element id="library" level="project" name="Maven: tk.mybatis:mapper:3.4.6" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.32" />
           <element id="library" level="project" name="Maven: com.alibaba:druid:1.0.9" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.0.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.0.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.0.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.0.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:5.0.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.0.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.0.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:5.0.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.0.0.RELEASE" />
+          <element id="archive" name="pinyougou_page_interface-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="pinyougou_page_interface" />
+          </element>
           <element id="archive" name="pinyougou_sellergoods_interface-1.0-SNAPSHOT.jar">
             <element id="module-output" name="pinyougou_sellergoods_interface" />
           </element>

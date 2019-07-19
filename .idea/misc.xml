@@ -8,6 +8,9 @@
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-order-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-pay-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-search-web" />
+    <file type="web" url="file://$PROJECT_DIR$/pinyougou-seckill-service" />
+    <file type="web" url="file://$PROJECT_DIR$/pinyougou-seckill-task" />
+    <file type="web" url="file://$PROJECT_DIR$/pinyougou-seckill-web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-user-web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou_content_service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou_manager_web" />
