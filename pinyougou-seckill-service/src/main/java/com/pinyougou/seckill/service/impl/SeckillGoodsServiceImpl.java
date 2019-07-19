@@ -2,6 +2,7 @@ package com.pinyougou.seckill.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import com.pinyougou.SysConstants;
 import com.pinyougou.seckill.service.SeckillGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -11,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import com.pinyougou.core.service.CoreServiceImpl;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import tk.mybatis.mapper.entity.Example;
 
 import com.pinyougou.mapper.TbSeckillGoodsMapper;
@@ -36,10 +38,14 @@ public class SeckillGoodsServiceImpl extends CoreServiceImpl<TbSeckillGoods>  im
 		this.seckillGoodsMapper=seckillGoodsMapper;
 	}
 
-	
-	
+	@Autowired
+	private RedisTemplate redisTemplate;
 
-	
+	@Override
+	public List<TbSeckillGoods> findAll() {
+		return redisTemplate.boundHashOps(SysConstants.SEC_KILL_GOODS).values();
+	}
+
 	@Override
     public PageInfo<TbSeckillGoods> findPage(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);

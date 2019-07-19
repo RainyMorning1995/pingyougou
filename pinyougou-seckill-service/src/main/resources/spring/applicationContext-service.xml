@@ -16,4 +16,9 @@
     <dubbo:provider timeout="100000"></dubbo:provider>
 
 
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer" id="freeMarkerConfigurer">
+        <property name="defaultEncoding" value="utf-8"></property>
+        <property name="templateLoaderPath" value="/WEB-INF/ftl"></property>
+    </bean>
+
 </beans>

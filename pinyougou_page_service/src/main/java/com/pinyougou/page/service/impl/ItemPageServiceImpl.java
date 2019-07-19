@@ -27,7 +27,7 @@ import java.util.Map;
 public class ItemPageServiceImpl implements ItemPageService {
 
 
-    @Value("${pageDir}")
+    @Value("${PageDir}")
     private String pageDir;
 
     @Autowired
