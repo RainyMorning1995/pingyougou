@@ -7,9 +7,43 @@ var app = new Vue({
         entity: {},
         ids: [],
         timeString:'',
-        searchEntity: {}
+        searchEntity: {},
+        seckillId:0,
+        messageInfo:'',
+        goodsInfo:{}
     },
     methods:{
+        getGoodsById: function (id) {
+            axios.get('/seckillGoods/getGoodsById.shtml', {
+                params: {
+                    id: id
+                }
+            }).then(function (response) {
+                console.log(response.data);
+                app.goodsInfo = response.data;
+                app.caculate(response.data.time);
+                console.log(app.goodsInfo);
+            })
+
+        },
+        submitOrder:function () {
+            axios.get('/seckillOrder/submitOrder/'+this.seckillId+'.shtml').then(function (response) {
+                if (response.data.success) {
+                    app.messageInfo = response.data.message;
+                }else {
+                    if (response.data.message == '403') {
+                        //说明没有登录
+                        var url = window.location.href;
+                        window.location.href = "/page/login.shtml?url="+url;
+
+                    }else {
+                        app.messageInfo = response.data.message;
+                    }
+                }
+            })
+
+
+        },
         /**
          *
          * @param alltime 为 时间的毫秒数。
@@ -50,7 +84,11 @@ var app = new Vue({
         }
     },
     created:function () {
+
+        var urlParam = this.getUrlParam();
+        this.seckillId = urlParam.id;
         //开始执行
-        this.caculate(1000000);
+        this.getGoodsById(this.seckillId);
+
     }
 });

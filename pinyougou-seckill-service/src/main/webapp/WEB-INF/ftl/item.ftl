@@ -198,6 +198,7 @@
                         </div>
                         <div class="fr remark">
                             <i>打折价</i><em>${seckillGoods.costPrice}</em>
+                            <i>剩余库存</i><em>${goodsInfo.count}</em>
                         </div>
                     </div>
                     <div class="summary-wrap">
@@ -1189,7 +1190,8 @@
                             <span>降价通知</span>
                         </div>
                         <div class="fr remark">
-                            <i>打折价</i><em>0.01</em>
+                            <i>打折价</i><em>${seckillGoods.costPrice}</em>
+                            <i>剩余库存</i><em>${goodsInfo.count}</em>
                         </div>
                     </div>
                     <div class="summary-wrap">
@@ -1292,6 +1294,9 @@
                             <ul class="btn-choose unstyled">
                                 <li>
                                     <a @click="submitOrder()" class="sui-btn  btn-danger addshopcar">立即抢购</a>
+                                </li>
+                                <li>
+                                    <span style="color:red">{{messageInfo}}</span>
                                 </li>
                             </ul>
                         </div>

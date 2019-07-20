@@ -1,5 +1,6 @@
-package com.pinyougou.manager.controller;
+package com.pinyougou.seckill.controller;
 import java.util.List;
+import java.util.Map;
 
 import com.pinyougou.seckill.service.SeckillGoodsService;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,17 @@ import entity.Result;
 @RequestMapping("/seckillGoods")
 public class SeckillGoodsController {
 
+
+
+
 	@Reference
 	private SeckillGoodsService seckillGoodsService;
+
+
+	@RequestMapping("/getGoodsById")
+	public Map getGoodsById(Long id){
+		return seckillGoodsService.getGoodsById(id);
+	}
 	
 	/**
 	 * 返回全部列表

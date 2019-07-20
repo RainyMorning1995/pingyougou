@@ -1,6 +1,5 @@
 package com.pinyougou.seckill.service.impl;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import com.pinyougou.SysConstants;
 import com.pinyougou.seckill.service.SeckillGoodsService;
@@ -46,7 +45,22 @@ public class SeckillGoodsServiceImpl extends CoreServiceImpl<TbSeckillGoods>  im
 		return redisTemplate.boundHashOps(SysConstants.SEC_KILL_GOODS).values();
 	}
 
-	@Override
+    @Override
+    public Map getGoodsById(Long id) {
+
+		TbSeckillGoods tbSeckillGoods = (TbSeckillGoods) redisTemplate.boundHashOps(SysConstants.SEC_KILL_GOODS).get(id);
+		Map map = new HashMap();
+		if(tbSeckillGoods!=null ){
+
+			//剩余时间毫秒数
+			map.put("time",tbSeckillGoods.getEndTime().getTime()-new Date().getTime());
+			map.put("count",tbSeckillGoods.getStockCount());
+			return map;
+		}
+		return map;
+    }
+
+    @Override
     public PageInfo<TbSeckillGoods> findPage(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
         List<TbSeckillGoods> all = seckillGoodsMapper.selectAll();

@@ -1,7 +1,8 @@
-package com.pinyougou.manager.controller;
+package com.pinyougou.seckill.controller;
 import java.util.List;
 
-import com.pinyougou.sellergoods.service.SeckillOrderService;
+import com.pinyougou.seckill.service.SeckillOrderService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbSeckillOrder;
@@ -18,9 +19,32 @@ import entity.Result;
 @RequestMapping("/seckillOrder")
 public class SeckillOrderController {
 
+
+
+
 	@Reference
 	private SeckillOrderService seckillOrderService;
-	
+
+
+	@RequestMapping("/submitOrder/{seckillId}")
+	public Result submitOrder(@PathVariable(value = "seckillId") Long seckillId){
+		try {
+			String name = SecurityContextHolder.getContext().getAuthentication().getName();
+			if ("anonymousUser".equals(name)){
+				return new Result(false,"403");
+			}
+
+			seckillOrderService.submitOrder(seckillId,name);
+
+			return new Result(true,"排队中请稍等");
+		}catch (RuntimeException e) {
+			return new Result(false,e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false,"抢单失败");
+		}
+	}
+
 	/**
 	 * 返回全部列表
 	 * @return
@@ -29,7 +53,9 @@ public class SeckillOrderController {
 	public List<TbSeckillOrder> findAll(){			
 		return seckillOrderService.findAll();
 	}
-	
+
+
+
 	
 	
 	@RequestMapping("/findPage")

@@ -40,7 +40,14 @@ public class GoodsTask {
         List<TbSeckillGoods> tbSeckillGoods = tbSeckillGoodsMapper.selectByExample(example);
         for (TbSeckillGoods tbSeckillGood : tbSeckillGoods) {
             redisTemplate.boundHashOps(SysConstants.SEC_KILL_GOODS).put(tbSeckillGood.getId(),tbSeckillGood);
+            pushGoodList(tbSeckillGood);
         }
 
+    }
+
+    private void pushGoodList(TbSeckillGoods tbSeckillGood) {
+        for (Integer i = 0; i < tbSeckillGood.getStockCount(); i++) {
+            redisTemplate.boundListOps(SysConstants.SEC_KILL_GOODS_PREFIX+tbSeckillGood.getId()).leftPush(tbSeckillGood.getId());
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.pinyougou.seckill.service;
 import java.util.List;
+import java.util.Map;
+
 import com.pinyougou.pojo.TbSeckillGoods;
 
 import com.github.pagehelper.PageInfo;
@@ -12,7 +14,9 @@ import com.pinyougou.core.service.CoreService;
 public interface SeckillGoodsService extends CoreService<TbSeckillGoods> {
 	
 	
-	
+	Map getGoodsById(Long id);
+
+
 	/**
 	 * 返回分页列表
 	 * @return
