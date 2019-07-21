@@ -11,6 +11,11 @@ import com.pinyougou.core.service.CoreService;
  */
 public interface SeckillOrderService extends CoreService<TbSeckillOrder> {
 
+	/**
+	 * 查询订单状态
+	 * @param userId
+	 */
+	public TbSeckillOrder queryUserOrderStatus(String userId);
 
 	/**
 	 * 秒杀下单

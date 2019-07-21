@@ -33,5 +33,6 @@
     <import resource="applicationContext-service.xml"></import>
     <import resource="applicationContext-redis.xml"></import>
     <import resource="applicationContext-consumer.xml"></import>
+    <import resource="applicationContext-thread.xml"></import>
 
 </beans>

@@ -25,6 +25,27 @@ public class SeckillOrderController {
 	@Reference
 	private SeckillOrderService seckillOrderService;
 
+	@RequestMapping("/queryUserOrderStatus")
+	public Result queryUserOrderStatus(){
+		try {
+			String name = SecurityContextHolder.getContext().getAuthentication().getName();
+			if ("anonymousUser".equals(name)){
+				return new Result(false,"403");
+			}
+			TbSeckillOrder tbSeckillOrder = seckillOrderService.queryUserOrderStatus(name);
+			if (tbSeckillOrder != null) {
+				return new Result(true,"待支付");
+			}else {
+				return new Result(false,"正在排队中,请稍等");
+			}
+		} catch (RuntimeException e) {
+			return new Result(false,e.getMessage());
+		}catch (Exception e){
+			e.printStackTrace();
+			return new Result(false,"抢单失败");
+		}
+	}
+
 
 	@RequestMapping("/submitOrder/{seckillId}")
 	public Result submitOrder(@PathVariable(value = "seckillId") Long seckillId){

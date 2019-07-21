@@ -21,9 +21,13 @@
         <property name="templateLoaderPath" value="/WEB-INF/ftl"></property>
     </bean>
 
-    <bean class="com.pinyougou.common.utils.IdWorker" id="idWorker">
-        <constructor-arg value="0" name="workerId"></constructor-arg>
-        <constructor-arg value="0" name="datacenterId"></constructor-arg>
+    <bean class="com.pinyougou.common.utils.IdWorker">
+        <constructor-arg name="datacenterId" value="0"></constructor-arg>
+        <constructor-arg name="workerId" value="0"></constructor-arg>
     </bean>
+
+
+
+
 
 </beans>

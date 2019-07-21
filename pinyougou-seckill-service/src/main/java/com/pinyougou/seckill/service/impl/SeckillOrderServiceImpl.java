@@ -7,7 +7,9 @@ import com.pinyougou.SysConstants;
 import com.pinyougou.common.utils.IdWorker;
 import com.pinyougou.mapper.TbSeckillGoodsMapper;
 import com.pinyougou.pojo.TbSeckillGoods;
+import com.pinyougou.seckill.pojo.SeckillStatus;
 import com.pinyougou.seckill.service.SeckillOrderService;
+import com.pinyougou.seckill.thread.CreateOrderThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
@@ -53,60 +55,50 @@ public class SeckillOrderServiceImpl extends CoreServiceImpl<TbSeckillOrder>  im
 	@Autowired
 	private IdWorker idWorker;
 
+	@Autowired
+	private CreateOrderThread orderThread;
 
 
 	@Override
+	public TbSeckillOrder queryUserOrderStatus(String userId) {
+		return (TbSeckillOrder) redisTemplate.boundHashOps(SysConstants.SEC_KILL_ORDER).get(userId);
+	}
+
+	@Override
 	public void submitOrder(Long seckillId, String userId) {
+
+
+
+
+
+
+		//是否在排队
+		Object o = redisTemplate.boundHashOps(SysConstants.SEC_USER_QUEUE_FLAG_KEY).get(userId);
+		if (o != null){
+			throw  new RuntimeException("已经在排队了");
+
+		}
+
+		Object o1 = redisTemplate.boundHashOps(SysConstants.SEC_KILL_ORDER).get(userId);
+		if (o1 != null) {
+			throw new RuntimeException("您有未支付订单,请先支付");
+		}
 
 		Long goodId = (Long) redisTemplate.boundListOps(SysConstants.SEC_KILL_GOODS_PREFIX + seckillId).rightPop();
 
 		if (goodId == null){
 			throw  new RuntimeException("商品已被抢光了");
 		}
-		//获取seckillgoods
-		TbSeckillGoods seckillGoods = (TbSeckillGoods) redisTemplate.boundHashOps(SysConstants.SEC_KILL_GOODS).get(seckillId);
-
-		//判断是否为空,或者库存量小于零,抛出异常
-//		if (seckillGoods == null || seckillGoods.getStockCount() <= 0){
-//			throw new RuntimeException("商品已经被抢光了!");
-//		}
-
-		//库存量减1
-		seckillGoods.setStockCount(seckillGoods.getStockCount()-1);
-		redisTemplate.boundHashOps(SysConstants.SEC_KILL_GOODS).put(seckillId,seckillGoods);
-
-		//判断是否库存为零,如果为零,就更新数据库,并存redis缓存当中删除该秒杀商品
-		if (seckillGoods.getStockCount() <= 0){
-			goodsMapper.updateByPrimaryKey(seckillGoods);
-			redisTemplate.boundHashOps(SysConstants.SEC_KILL_GOODS).delete(seckillId);
-		}
-
-		//创建一个订单,往里面添加数据
-		TbSeckillOrder tbSeckillOrder = new TbSeckillOrder();
 
 
-		//     * 秒杀商品ID
-		long id = idWorker.nextId();
+		//将SecKillstatues存储缓存当中
+		redisTemplate.boundListOps(SysConstants.SEC_KILL_USER_ORDER_LIST).leftPush(new SeckillStatus(userId,seckillId,SeckillStatus.SECKILL_queuing));
 
-		tbSeckillOrder.setId(id);
+		redisTemplate.boundHashOps(SysConstants.SEC_USER_QUEUE_FLAG_KEY).put(userId,seckillId);
 
-		//     * 支付金额
+		orderThread.handleOrder();
 
-		tbSeckillOrder.setMoney(seckillGoods.getCostPrice());
-		//     * 用户
-		tbSeckillOrder.setUserId(userId);
-		//     * 商家
-		tbSeckillOrder.setSellerId(seckillGoods.getSellerId());
 
-		//秒杀商品的id
-		tbSeckillOrder.setSeckillId(seckillId);
-		//     * 创建时间
-		tbSeckillOrder.setCreateTime(new Date());
-		//     * 状态 0 未支付
-		tbSeckillOrder.setStatus("0");
-
-		//将订单存储进入redis缓存
-		redisTemplate.boundHashOps(SysConstants.SEC_KILL_ORDER).put(userId,tbSeckillOrder);
 
 	}
 

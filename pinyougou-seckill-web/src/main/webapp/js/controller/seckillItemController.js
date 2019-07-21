@@ -13,6 +13,24 @@ var app = new Vue({
         goodsInfo:{}
     },
     methods:{
+        queryStatus:function () {
+            let count = 0;
+            let queryOrder = window.setInterval(function () {
+                axios.get('/seckillOrder/queryUserOrderStatus.shtml').then(function (response) {
+                    if (response.data.success) {
+                        window.clearInterval(queryOrder);
+                        alert("跳转到登录页面");
+                    }else {
+                        if (response.data.message == '403') {
+                            var url = window.location.href;
+                            window.location.href = "/page/login.shtml?url="+url;
+                        }else {
+                            app.messageInfo=response.data.message+"....."+count;
+                        }
+                    }
+                })
+            },3000)
+        },
         getGoodsById: function (id) {
             axios.get('/seckillGoods/getGoodsById.shtml', {
                 params: {
